@@ -1,0 +1,111 @@
+rules_version = '2';
+
+// MyWorld+ Cloud Storage Security Rules — v1.0
+//
+// All user files are private. Read access mirrors the Firestore record that
+// owns the file (cross-service rules), so knowing a path or an ID is never
+// enough. Writes are size/type limited and checked against the server-managed
+// storage quota. Content is re-validated server-side (magic bytes) after upload.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function signedIn() { return request.auth != null; }
+    function db() { return /databases/(default)/documents; }
+
+    function memberActive(fid) {
+      return fid is string
+        && firestore.exists(/databases/(default)/documents/families/$(fid)/members/$(request.auth.uid))
+        && firestore.get(/databases/(default)/documents/families/$(fid)/members/$(request.auth.uid)).data.status == 'active';
+    }
+    function canReadRecord(data) {
+      return signedIn() && (
+        data.ownerUid == request.auth.uid
+        || (data.privacyLevel == 'family' && memberActive(data.familyId))
+        || (data.privacyLevel == 'shared' && request.auth.uid in data.sharedWith
+            && memberActive(data.familyId))
+      );
+    }
+
+    function ent() {
+      return firestore.get(/databases/(default)/documents/entitlements/$(request.auth.uid)).data;
+    }
+    function underStorageQuota() {
+      return firestore.exists(/databases/(default)/documents/entitlements/$(request.auth.uid))
+        && firestore.get(/databases/(default)/documents/usage/$(ent().usageKey)).data.storageUsedBytes
+           + request.resource.size <= ent().storageLimitBytes;
+    }
+
+    // Keep in sync with functions/src/plans.ts (MAX_UPLOAD_BYTES).
+    function validDocumentUpload() {
+      return request.resource.size > 0
+        && request.resource.size <= 25 * 1024 * 1024
+        && request.resource.contentType.matches('application/pdf|image/jpeg|image/png|image/heic|image/heif');
+    }
+    function validPhotoUpload() {
+      return request.resource.size > 0
+        && request.resource.size <= 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/jpeg|image/png|image/heic|image/heif|image/webp');
+    }
+
+    // Document files: users/{ownerUid}/documents/{documentId}/{fileName}
+    match /users/{ownerUid}/documents/{documentId}/{fileName} {
+      allow read: if signedIn()
+        && firestore.exists(/databases/(default)/documents/documents/$(documentId))
+        && firestore.get(/databases/(default)/documents/documents/$(documentId)).data.storagePath
+             == 'users/' + ownerUid + '/documents/' + documentId + '/' + fileName
+        && canReadRecord(firestore.get(/databases/(default)/documents/documents/$(documentId)).data);
+
+      // Upload only for a metadata record the uploader owns, at the exact declared path.
+      allow create: if signedIn() && request.auth.uid == ownerUid
+        && resource == null
+        && validDocumentUpload()
+        && firestore.exists(/databases/(default)/documents/documents/$(documentId))
+        && firestore.get(/databases/(default)/documents/documents/$(documentId)).data.ownerUid == ownerUid
+        && firestore.get(/databases/(default)/documents/documents/$(documentId)).data.storagePath
+             == 'users/' + ownerUid + '/documents/' + documentId + '/' + fileName
+        && underStorageQuota();
+
+      // Overwrites are not allowed; permanent deletion is done server-side.
+      allow update, delete: if false;
+    }
+
+    // Entity photos: users/{ownerUid}/photos/{entityId}/{fileName}
+    // (assets, vehicles, family profiles, avatar). Read follows the entity record.
+    match /users/{ownerUid}/photos/{entityId}/{fileName} {
+      allow read: if signedIn() && (
+        request.auth.uid == ownerUid
+        || (firestore.exists(/databases/(default)/documents/assets/$(entityId))
+            && canReadRecord(firestore.get(/databases/(default)/documents/assets/$(entityId)).data))
+        || (firestore.exists(/databases/(default)/documents/vehicles/$(entityId))
+            && canReadRecord(firestore.get(/databases/(default)/documents/vehicles/$(entityId)).data))
+        || (firestore.exists(/databases/(default)/documents/walletCards/$(entityId))
+            && canReadRecord(firestore.get(/databases/(default)/documents/walletCards/$(entityId)).data))
+        || (firestore.exists(/databases/(default)/documents/businessCards/$(entityId))
+            && canReadRecord(firestore.get(/databases/(default)/documents/businessCards/$(entityId)).data))
+      );
+      allow create, update: if signedIn() && request.auth.uid == ownerUid
+        && validPhotoUpload() && underStorageQuota();
+      allow delete: if signedIn() && request.auth.uid == ownerUid;
+    }
+
+    // Family profile photos: families/{familyId}/profiles/{profileId}/{fileName}
+    match /families/{familyId}/profiles/{profileId}/{fileName} {
+      allow read: if signedIn() && memberActive(familyId);
+      allow create, update, delete: if signedIn() && memberActive(familyId)
+        && firestore.get(/databases/(default)/documents/families/$(familyId)/members/$(request.auth.uid)).data.role in ['owner', 'admin']
+        && (request.resource == null || validPhotoUpload());
+    }
+
+    // Data exports produced by the exportUserData function. Owner-only, read-only.
+    match /exports/{ownerUid}/{fileName} {
+      allow read: if signedIn() && request.auth.uid == ownerUid;
+      allow write: if false;
+    }
+
+    // Everything else is denied.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

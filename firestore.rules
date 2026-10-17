@@ -1,0 +1,463 @@
+rules_version = '2';
+
+// MyWorld+ Firestore Security Rules — v1.0
+//
+// Principles:
+//  * Deny by default. Every collection is listed explicitly.
+//  * Entitlements, subscriptions, families, memberships, invitations, usage,
+//    extractions and audit logs are written ONLY by Cloud Functions (Admin SDK).
+//  * A family role never grants blanket access. Each record carries its own
+//    privacyLevel: private | shared | family.
+//  * Removed/left members lose access because every check requires an
+//    ACTIVE membership document.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- helpers ----------
+    function signedIn() { return request.auth != null; }
+    function uid() { return request.auth.uid; }
+    function isUser(userId) { return signedIn() && uid() == userId; }
+
+    function memberPath(fid) {
+      return /databases/$(database)/documents/families/$(fid)/members/$(uid());
+    }
+    function isActiveMember(fid) {
+      return signedIn() && fid is string && exists(memberPath(fid))
+        && get(memberPath(fid)).data.status == 'active';
+    }
+    function memberRole(fid) { return get(memberPath(fid)).data.role; }
+    function isFamilyManager(fid) {
+      return isActiveMember(fid) && memberRole(fid) in ['owner', 'admin'];
+    }
+
+    function entitlement() {
+      return get(/databases/$(database)/documents/entitlements/$(uid())).data;
+    }
+    function usageOf(key) {
+      return get(/databases/$(database)/documents/usage/$(key)).data;
+    }
+
+    // Shared privacy model used by documents, assets, vehicles, records, reminders.
+    function canReadRecord(data) {
+      return signedIn() && (
+        data.ownerUid == uid()
+        || (data.privacyLevel == 'family' && isActiveMember(data.familyId))
+        || (data.privacyLevel == 'shared'
+            && uid() in data.sharedWith
+            && isActiveMember(data.familyId))
+      );
+    }
+
+    function validPrivacy(data) {
+      return data.privacyLevel in ['private', 'shared', 'family']
+        && (!('sharedWith' in data) || (data.sharedWith is list && data.sharedWith.size() <= 25))
+        && (
+          (data.privacyLevel == 'private'
+             && (!('sharedWith' in data) || data.sharedWith.size() == 0)
+             && (!('familyId' in data) || data.familyId == null || isActiveMember(data.familyId)))
+          || (data.privacyLevel == 'family' && isActiveMember(data.familyId))
+          || (data.privacyLevel == 'shared' && isActiveMember(data.familyId)
+              && data.sharedWith.size() > 0)
+        );
+    }
+
+    function optString(data, k, max) {
+      return !(k in data) || data[k] == null || (data[k] is string && data[k].size() <= max);
+    }
+    function optNumber(data, k) {
+      return !(k in data) || data[k] == null || data[k] is number;
+    }
+    function optTimestamp(data, k) {
+      return !(k in data) || data[k] == null || data[k] is timestamp;
+    }
+    function optCurrency(data) {
+      return !('currency' in data) || data.currency == null
+        || (data.currency is string && data.currency.matches('^[A-Z]{3}$'));
+    }
+
+    function unchanged(keys) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(keys);
+    }
+    function onlyKeys(keys) {
+      return request.resource.data.keys().hasOnly(keys);
+    }
+    function changedOnly(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+
+    // ---------- users ----------
+    match /users/{userId} {
+      allow read: if isUser(userId);
+      allow create: if isUser(userId)
+        && onlyKeys(['uid', 'displayName', 'email', 'photoUrl', 'preferredLanguage', 'region',
+                     'createdAt', 'updatedAt', 'onboardingCompleted', 'notificationPreview'])
+        && request.resource.data.uid == userId
+        && optString(request.resource.data, 'displayName', 80);
+      // activeFamilyId and accountStatus are server-managed.
+      allow update: if isUser(userId)
+        && changedOnly(['displayName', 'photoUrl', 'preferredLanguage', 'region', 'updatedAt',
+                        'onboardingCompleted', 'notificationPreview'])
+        && optString(request.resource.data, 'displayName', 80);
+      allow delete: if false;
+
+      match /devices/{deviceId} {
+        allow read, delete: if isUser(userId);
+        allow create, update: if isUser(userId)
+          && request.resource.data.keys().hasOnly(['token', 'platform', 'locale', 'updatedAt'])
+          && request.resource.data.token is string;
+      }
+    }
+
+    // ---------- server-owned billing & limits ----------
+    match /entitlements/{userId} {
+      allow read: if isUser(userId);
+      allow write: if false;
+    }
+    match /subscriptions/{subscriptionId} {
+      allow read: if signedIn() && resource.data.ownerUid == uid();
+      allow write: if false;
+    }
+    match /usage/{key} {
+      allow read: if isUser(key) || isActiveMember(key);
+      allow write: if false;
+    }
+    match /aiBudgets/{budgetId} {
+      allow read: if signedIn() && resource.data.uid == uid();
+      allow write: if false;
+    }
+    match /aiUsage/{id} {
+      allow read: if signedIn() && resource.data.uid == uid();
+      allow write: if false;
+    }
+    match /auditLogs/{id} {
+      allow read, write: if false;
+    }
+    match /config/{docId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+    match /exports/{exportId} {
+      allow read: if signedIn() && resource.data.uid == uid();
+      allow write: if false;
+    }
+
+    // ---------- families ----------
+    match /families/{familyId} {
+      allow read: if isActiveMember(familyId);
+      allow write: if false;
+
+      match /members/{memberUid} {
+        allow read: if isActiveMember(familyId) || isUser(memberUid);
+        allow write: if false;
+      }
+
+      // Family profiles: people tracked in the family record who may not have
+      // an account (e.g. children). Managed by owner/admin.
+      match /profiles/{profileId} {
+        allow read: if isActiveMember(familyId);
+        allow create: if isFamilyManager(familyId)
+          && onlyKeys(['name', 'relationship', 'photoStoragePath', 'isMinor', 'linkedUid',
+                       'createdBy', 'createdAt', 'updatedAt'])
+          && request.resource.data.name is string
+          && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 80
+          && request.resource.data.createdBy == uid()
+          && optString(request.resource.data, 'relationship', 40);
+        allow update: if isFamilyManager(familyId)
+          && changedOnly(['name', 'relationship', 'photoStoragePath', 'isMinor', 'updatedAt'])
+          && request.resource.data.name is string
+          && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 80;
+        allow delete: if isFamilyManager(familyId);
+      }
+    }
+
+    match /familyInvitations/{invitationId} {
+      allow read: if signedIn() && (resource.data.invitedBy == uid()
+                                    || isFamilyManager(resource.data.familyId));
+      allow write: if false;
+    }
+
+    // ---------- documents ----------
+    function documentKeys() {
+      return ['documentId', 'ownerUid', 'familyId', 'title', 'description', 'categoryId',
+              'subCategoryId', 'tags', 'fileType', 'mimeType', 'storagePath', 'fileSizeBytes',
+              'pageCount', 'createdAt', 'updatedAt', 'documentDate', 'purchaseDate', 'vendor',
+              'amount', 'currency', 'warrantyExpiryDate', 'expiryDate', 'privacyLevel',
+              'sharedWith', 'linkedEntityIds', 'processingStatus', 'isFavorite', 'isVault',
+              'deletedAt', 'notes', 'contentHash', 'searchText'];
+    }
+
+    function validDocument(d, docId) {
+      return d.title is string && d.title.size() > 0 && d.title.size() <= 200
+        && d.documentId == docId
+        && optString(d, 'description', 2000)
+        && optString(d, 'notes', 4000)
+        && optString(d, 'vendor', 200)
+        && optString(d, 'categoryId', 80)
+        && optString(d, 'searchText', 6000)
+        && optNumber(d, 'amount')
+        && optCurrency(d)
+        && optTimestamp(d, 'documentDate')
+        && optTimestamp(d, 'purchaseDate')
+        && optTimestamp(d, 'warrantyExpiryDate')
+        && optTimestamp(d, 'expiryDate')
+        && optTimestamp(d, 'deletedAt')
+        && (!('tags' in d) || (d.tags is list && d.tags.size() <= 30))
+        && (!('linkedEntityIds' in d) || (d.linkedEntityIds is list && d.linkedEntityIds.size() <= 50))
+        && d.fileSizeBytes is int && d.fileSizeBytes >= 0
+        && d.storagePath is string
+        && d.storagePath.matches('^users/' + d.ownerUid + '/documents/' + docId + '/[^/]+$')
+        && validPrivacy(d);
+    }
+
+    // AI-only statuses (processing, needs_review) are server-managed.
+    function clientStatus(s) {
+      return s in ['draft', 'uploading', 'uploaded', 'ready', 'failed'];
+    }
+
+    function underDocumentQuota() {
+      return exists(/databases/$(database)/documents/entitlements/$(uid()))
+        && usageOf(entitlement().usageKey).activeDocumentCount < entitlement().maxDocuments;
+    }
+
+    match /documents/{docId} {
+      allow get, list: if canReadRecord(resource.data);
+      allow create: if signedIn()
+        && onlyKeys(documentKeys())
+        && request.resource.data.ownerUid == uid()
+        && request.resource.data.deletedAt == null
+        && clientStatus(request.resource.data.processingStatus)
+        && validDocument(request.resource.data, docId)
+        && underDocumentQuota();
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && onlyKeys(documentKeys())
+        && unchanged(['ownerUid', 'documentId', 'storagePath', 'createdAt'])
+        // Server may set processing/needs_review; the client may keep it or move on.
+        && (request.resource.data.processingStatus == resource.data.processingStatus
+            || clientStatus(request.resource.data.processingStatus))
+        && validDocument(request.resource.data, docId)
+        // Restoring from trash counts against quota again.
+        && (!(resource.data.deletedAt != null && request.resource.data.deletedAt == null)
+            || underDocumentQuota());
+      // Permanent deletion goes through the purgeDocument callable (cleans Storage).
+      allow delete: if false;
+    }
+
+    match /documentExtractions/{docId} {
+      allow read: if signedIn()
+        && canReadRecord(get(/databases/$(database)/documents/documents/$(docId)).data);
+      allow write: if false;
+    }
+
+    // ---------- custom categories ----------
+    match /categories/{categoryId} {
+      allow read: if signedIn() && resource.data.ownerUid == uid();
+      allow create: if signedIn() && request.resource.data.ownerUid == uid()
+        && onlyKeys(['ownerUid', 'name', 'area', 'parentId', 'icon', 'createdAt', 'updatedAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 60
+        && request.resource.data.area in ['home', 'documents', 'hobby', 'car', 'life', 'vault', 'cards', 'business'];
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && unchanged(['ownerUid'])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 60;
+      allow delete: if signedIn() && resource.data.ownerUid == uid();
+    }
+
+    // ---------- assets (home items, hobby items, valuables) ----------
+    function assetKeys() {
+      return ['assetId', 'ownerUid', 'familyId', 'area', 'name', 'category', 'description',
+              'photoStoragePath', 'brand', 'model', 'serialNumber', 'purchaseDate',
+              'purchasePrice', 'currency', 'vendor', 'warrantyExpiryDate', 'location', 'status',
+              'privacyLevel', 'sharedWith', 'assignedProfileIds', 'notes', 'createdAt',
+              'updatedAt', 'deletedAt'];
+    }
+    function validAsset(a, id) {
+      return a.assetId == id
+        && a.name is string && a.name.size() > 0 && a.name.size() <= 120
+        && a.area in ['home', 'hobby', 'life']
+        && optString(a, 'category', 80) && optString(a, 'brand', 80)
+        && optString(a, 'model', 80) && optString(a, 'serialNumber', 80)
+        && optString(a, 'vendor', 120) && optString(a, 'notes', 4000)
+        && optString(a, 'location', 120) && optString(a, 'description', 2000)
+        && optNumber(a, 'purchasePrice') && optCurrency(a)
+        && optTimestamp(a, 'purchaseDate') && optTimestamp(a, 'warrantyExpiryDate')
+        && (!('photoStoragePath' in a) || a.photoStoragePath == null
+            || a.photoStoragePath.matches('^users/' + a.ownerUid + '/photos/[^/]+/[^/]+$'))
+        && validPrivacy(a);
+    }
+    match /assets/{assetId} {
+      allow get, list: if canReadRecord(resource.data);
+      allow create: if signedIn() && request.resource.data.ownerUid == uid()
+        && onlyKeys(assetKeys()) && validAsset(request.resource.data, assetId);
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && onlyKeys(assetKeys()) && unchanged(['ownerUid', 'assetId', 'createdAt'])
+        && validAsset(request.resource.data, assetId);
+      allow delete: if signedIn() && resource.data.ownerUid == uid();
+    }
+
+    // ---------- vehicles ----------
+    function vehicleKeys() {
+      return ['vehicleId', 'ownerUid', 'familyId', 'make', 'model', 'year', 'registrationNumber',
+              'vin', 'purchaseDate', 'purchasePrice', 'currency', 'currentMileage', 'fuelType',
+              'photoStoragePath', 'notes', 'privacyLevel', 'sharedWith', 'createdAt', 'updatedAt',
+              'deletedAt'];
+    }
+    function validVehicle(v, id) {
+      return v.vehicleId == id
+        && v.make is string && v.make.size() > 0 && v.make.size() <= 60
+        && v.model is string && v.model.size() <= 60
+        && (!('year' in v) || v.year == null || (v.year is int && v.year >= 1900 && v.year <= 2100))
+        && optString(v, 'registrationNumber', 20) && optString(v, 'vin', 17)
+        && optNumber(v, 'currentMileage') && optNumber(v, 'purchasePrice') && optCurrency(v)
+        && optTimestamp(v, 'purchaseDate') && optString(v, 'notes', 4000)
+        && (!('photoStoragePath' in v) || v.photoStoragePath == null
+            || v.photoStoragePath.matches('^users/' + v.ownerUid + '/photos/[^/]+/[^/]+$'))
+        && validPrivacy(v);
+    }
+    match /vehicles/{vehicleId} {
+      allow get, list: if canReadRecord(resource.data);
+      allow create: if signedIn() && request.resource.data.ownerUid == uid()
+        && onlyKeys(vehicleKeys()) && validVehicle(request.resource.data, vehicleId);
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && onlyKeys(vehicleKeys()) && unchanged(['ownerUid', 'vehicleId', 'createdAt'])
+        && validVehicle(request.resource.data, vehicleId);
+      allow delete: if signedIn() && resource.data.ownerUid == uid();
+    }
+
+    // ---------- vehicle records ----------
+    function recordKeys() {
+      return ['recordId', 'vehicleId', 'ownerUid', 'familyId', 'recordType', 'date', 'mileage',
+              'description', 'amount', 'currency', 'vendor', 'documentIds', 'nextDueDate',
+              'nextDueMileage', 'privacyLevel', 'sharedWith', 'createdAt', 'updatedAt'];
+    }
+    function validRecord(r, id) {
+      return r.recordId == id
+        && r.vehicleId is string
+        && get(/databases/$(database)/documents/vehicles/$(r.vehicleId)).data.ownerUid == uid()
+        && r.recordType in ['registration', 'insurance', 'inspection', 'service', 'oil', 'tires',
+                            'repair', 'parts', 'fuel', 'tolls', 'parking', 'other']
+        && r.date is timestamp
+        && optNumber(r, 'mileage') && optNumber(r, 'amount') && optCurrency(r)
+        && optString(r, 'description', 1000) && optString(r, 'vendor', 120)
+        && optTimestamp(r, 'nextDueDate') && optNumber(r, 'nextDueMileage')
+        && (!('documentIds' in r) || (r.documentIds is list && r.documentIds.size() <= 20))
+        && validPrivacy(r);
+    }
+    match /vehicleRecords/{recordId} {
+      allow get, list: if canReadRecord(resource.data);
+      allow create: if signedIn() && request.resource.data.ownerUid == uid()
+        && onlyKeys(recordKeys()) && validRecord(request.resource.data, recordId);
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && onlyKeys(recordKeys()) && unchanged(['ownerUid', 'recordId', 'vehicleId', 'createdAt'])
+        && validRecord(request.resource.data, recordId);
+      allow delete: if signedIn() && resource.data.ownerUid == uid();
+    }
+
+    // ---------- reminders ----------
+    function reminderKeys() {
+      return ['reminderId', 'ownerUid', 'familyId', 'title', 'description', 'dueAt', 'timezone',
+              'repeatRule', 'notificationChannels', 'linkedEntityId', 'linkedEntityType',
+              'linkedDocumentId', 'privacyLevel', 'sharedWith', 'status', 'kind', 'nextNotifyAt',
+              'leadTimeMinutes', 'createdAt', 'updatedAt',
+              // server-managed (must stay unchanged on client writes):
+              'lastSentKey', 'lastSentAt'];
+    }
+    function validReminder(r, id) {
+      return r.reminderId == id
+        && r.title is string && r.title.size() > 0 && r.title.size() <= 120
+        && r.dueAt is timestamp
+        && r.timezone is string && r.timezone.size() <= 64
+        && r.repeatRule in ['none', 'daily', 'weekly', 'monthly', 'yearly']
+        && r.status in ['active', 'done', 'snoozed', 'cancelled']
+        && optString(r, 'description', 1000)
+        && optTimestamp(r, 'nextNotifyAt')
+        && (!('notificationChannels' in r) || r.notificationChannels is list)
+        && validPrivacy(r);
+    }
+    match /reminders/{reminderId} {
+      allow get, list: if canReadRecord(resource.data);
+      allow create: if signedIn() && request.resource.data.ownerUid == uid()
+        && onlyKeys(reminderKeys())
+        && !('lastSentKey' in request.resource.data) && !('lastSentAt' in request.resource.data)
+        && validReminder(request.resource.data, reminderId);
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && onlyKeys(reminderKeys())
+        && unchanged(['ownerUid', 'reminderId', 'createdAt', 'lastSentKey', 'lastSentAt'])
+        && validReminder(request.resource.data, reminderId);
+      allow delete: if signedIn() && resource.data.ownerUid == uid();
+    }
+
+    // ---------- wallet cards (loyalty, discounts, coupons, gift, membership) ----------
+    function walletKeys() {
+      return ['cardId', 'ownerUid', 'familyId', 'kind', 'name', 'issuer', 'cardNumber',
+              'barcodeValue', 'barcodeFormat', 'discountText', 'balance', 'currency',
+              'validFrom', 'expiryDate', 'frontPhotoPath', 'backPhotoPath', 'color', 'notes',
+              'isFavorite', 'usedAt', 'privacyLevel', 'sharedWith', 'createdAt', 'updatedAt',
+              'deletedAt'];
+    }
+    function validWallet(c, id) {
+      return c.cardId == id
+        && c.kind in ['loyalty', 'discount', 'coupon', 'gift', 'membership', 'other']
+        && c.name is string && c.name.size() > 0 && c.name.size() <= 80
+        && optString(c, 'issuer', 120) && optString(c, 'cardNumber', 64)
+        && optString(c, 'barcodeValue', 512)
+        && (!('barcodeFormat' in c) || c.barcodeFormat == null
+            || c.barcodeFormat in ['qr', 'ean13', 'ean8', 'code128', 'code39', 'upca', 'pdf417',
+                                   'aztec', 'datamatrix', 'none'])
+        && optString(c, 'discountText', 200) && optNumber(c, 'balance') && optCurrency(c)
+        && optTimestamp(c, 'validFrom') && optTimestamp(c, 'expiryDate') && optTimestamp(c, 'usedAt')
+        && optString(c, 'notes', 2000) && optString(c, 'color', 9)
+        && (!('frontPhotoPath' in c) || c.frontPhotoPath == null
+            || c.frontPhotoPath.matches('^users/' + c.ownerUid + '/photos/[^/]+/[^/]+$'))
+        && (!('backPhotoPath' in c) || c.backPhotoPath == null
+            || c.backPhotoPath.matches('^users/' + c.ownerUid + '/photos/[^/]+/[^/]+$'))
+        && validPrivacy(c);
+    }
+    match /walletCards/{cardId} {
+      allow get, list: if canReadRecord(resource.data);
+      allow create: if signedIn() && request.resource.data.ownerUid == uid()
+        && onlyKeys(walletKeys()) && validWallet(request.resource.data, cardId);
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && onlyKeys(walletKeys()) && unchanged(['ownerUid', 'cardId', 'createdAt'])
+        && validWallet(request.resource.data, cardId);
+      allow delete: if signedIn() && resource.data.ownerUid == uid();
+    }
+
+    // ---------- business cards (other people's contact cards) ----------
+    function bizKeys() {
+      return ['cardId', 'ownerUid', 'familyId', 'fullName', 'company', 'jobTitle', 'phones',
+              'emails', 'website', 'address', 'socialLinks', 'frontPhotoPath', 'backPhotoPath',
+              'notes', 'tags', 'metAt', 'metWhere', 'isFavorite', 'processingStatus',
+              'privacyLevel', 'sharedWith', 'createdAt', 'updatedAt', 'deletedAt'];
+    }
+    function validBiz(c, id) {
+      return c.cardId == id
+        && ((c.fullName is string && c.fullName.size() > 0) || (c.company is string && c.company.size() > 0))
+        && optString(c, 'fullName', 120) && optString(c, 'company', 120)
+        && optString(c, 'jobTitle', 120) && optString(c, 'website', 300)
+        && optString(c, 'address', 400) && optString(c, 'notes', 4000)
+        && optString(c, 'metWhere', 200) && optTimestamp(c, 'metAt')
+        && (!('phones' in c) || (c.phones is list && c.phones.size() <= 10))
+        && (!('emails' in c) || (c.emails is list && c.emails.size() <= 10))
+        && (!('socialLinks' in c) || (c.socialLinks is list && c.socialLinks.size() <= 10))
+        && (!('tags' in c) || (c.tags is list && c.tags.size() <= 20))
+        && (!('processingStatus' in c) || c.processingStatus in ['ready', 'needs_review', 'processing', 'failed'])
+        && (!('frontPhotoPath' in c) || c.frontPhotoPath == null
+            || c.frontPhotoPath.matches('^users/' + c.ownerUid + '/photos/[^/]+/[^/]+$'))
+        && (!('backPhotoPath' in c) || c.backPhotoPath == null
+            || c.backPhotoPath.matches('^users/' + c.ownerUid + '/photos/[^/]+/[^/]+$'))
+        && validPrivacy(c);
+    }
+    match /businessCards/{cardId} {
+      allow get, list: if canReadRecord(resource.data);
+      allow create: if signedIn() && request.resource.data.ownerUid == uid()
+        && onlyKeys(bizKeys()) && validBiz(request.resource.data, cardId);
+      allow update: if signedIn() && resource.data.ownerUid == uid()
+        && onlyKeys(bizKeys()) && unchanged(['ownerUid', 'cardId', 'createdAt'])
+        && validBiz(request.resource.data, cardId);
+      allow delete: if signedIn() && resource.data.ownerUid == uid();
+    }
+
+    // Anything not matched above is denied.
+  }
+}

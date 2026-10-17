@@ -1,0 +1,35 @@
+# Node
+node_modules/
+functions/lib/
+*.log
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+storage-debug.log*
+.firebase/
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+functions/.secret.local
+functions/.env.*
+!functions/.env.example
+app/android/app/google-services.json
+app/ios/Runner/GoogleService-Info.plist
+app/lib/firebase_options_*.dart
+!app/lib/firebase_options_stub.dart
+app/android/key.properties
+*.jks
+*.keystore
+
+# Flutter
+app/.dart_tool/
+app/build/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/ios/Pods/
+app/ios/.symlinks/
+app/coverage/
+.idea/
+.vscode/
