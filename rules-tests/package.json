@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "firebase emulators:exec --only firestore,storage --project demo-myworld \"vitest run\""
+    "test": "firebase emulators:exec --only firestore,storage --project demo-myworld \"vitest run firestore.test.js storage.test.js\"",
+    "test:functions": "npm --prefix ../functions run build && firebase emulators:exec --only auth,firestore,storage,functions --project demo-myworld \"vitest run functions.int.test.js\""
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
