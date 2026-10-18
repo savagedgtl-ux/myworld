@@ -13,7 +13,7 @@
 	<!-- Universal links for family invitations (host serves apple-app-site-association). -->
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:myworldplus.app</string>
+		<string>applinks:myworld-b0330.web.app</string>
 	</array>
 	<!-- App Attest for Firebase App Check -->
 	<key>com.apple.developer.devicecheck.appattest-environment</key>

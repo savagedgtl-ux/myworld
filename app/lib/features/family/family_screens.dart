@@ -422,7 +422,7 @@ class _InviteMemberScreenState extends ConsumerState<InviteMemberScreen> {
 
 final _invitesProvider = StreamProvider.family<List<FamilyInvitation>, String>((ref, fid) => ref.watch(familyRepoProvider).watchInvitations(fid));
 
-/// Opened from the invitation link (myworldplus.app/invite?i=…&t=…).
+/// Opened from the invitation link (myworld-b0330.web.app/invite?i=…&t=…).
 class InvitationAcceptanceScreen extends ConsumerStatefulWidget {
   const InvitationAcceptanceScreen({super.key, required this.invitationId, required this.token});
   final String invitationId;

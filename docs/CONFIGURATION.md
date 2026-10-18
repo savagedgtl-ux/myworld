@@ -37,7 +37,7 @@ firebase functions:secrets:set REVENUECAT_WEBHOOK_AUTH        # nasumičan strin
 | `OPENAI_MODEL_ASK` | `gpt-5-mini` | Model za pitanja. |
 | `OPENAI_MODEL_CLASSIFY` | `gpt-5-nano` | Jeftin model (vizit karte). |
 | `AI_GLOBAL_MONTHLY_BUDGET_USD` | `200` | Globalni mesečni limit; upozorenje na 80 %. |
-| `INVITE_LINK_BASE` | `https://myworldplus.app/invite` | Baza linka pozivnice. |
+| `INVITE_LINK_BASE` | `https://myworld-b0330.web.app/invite` | Baza linka pozivnice. |
 | `APP_REGION` | `europe-west1` | Region funkcija. |
 
 Cene modela za procenu troška: `functions/src/ai/usage.ts` (`PRICES`) — ažuriraj kada se cene promene.
@@ -79,7 +79,7 @@ flutter build appbundle --release \
 - U AdMob konzoli podesi **UMP poruku** (GDPR / US state privacy). Aplikacija je prikazuje pre prvog oglasa i samo u Individual Base paketu.
 
 ## 8. Domen pozivnica
-Firebase Hosting na `myworldplus.app` (ili tvoj domen) servira `hosting/.well-known/assetlinks.json` i `apple-app-site-association`. Zameni `REPLACE_…` vrednosti (SHA-256 sertifikata za Android, Team ID za iOS). Ako promeniš domen, promeni ga i u `AndroidManifest.xml`, `Runner.entitlements`, `INVITE_LINK_BASE`, `INVITE_HOST`.
+Firebase Hosting na `myworld-b0330.web.app` (ili tvoj domen) servira `hosting/.well-known/assetlinks.json` i `apple-app-site-association`. Zameni `REPLACE_…` vrednosti (SHA-256 sertifikata za Android, Team ID za iOS). Ako promeniš domen, promeni ga i u `AndroidManifest.xml`, `Runner.entitlements`, `INVITE_LINK_BASE`, `INVITE_HOST`.
 
 ## 9. iOS u Xcode-u
 Signing & Capabilities: Push Notifications, Sign in with Apple, Associated Domains, App Attest (entitlements su u `Runner/Runner.entitlements`), Background Modes → Remote notifications. Minimalni iOS: 15.0.

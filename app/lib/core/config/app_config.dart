@@ -19,10 +19,10 @@ abstract final class AppConfig {
   /// Google Sign-In server client id (Web client id from Firebase console).
   static const googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID', defaultValue: '604089389013-pl032nb48i8ci2sl0fgrfugisrkmdjav.apps.googleusercontent.com');
 
-  static const privacyPolicyUrl = String.fromEnvironment('PRIVACY_URL', defaultValue: 'https://myworldplus.app/privacy');
-  static const termsUrl = String.fromEnvironment('TERMS_URL', defaultValue: 'https://myworldplus.app/terms');
-  static const supportEmail = String.fromEnvironment('SUPPORT_EMAIL', defaultValue: 'support@myworldplus.app');
-  static const inviteHost = String.fromEnvironment('INVITE_HOST', defaultValue: 'myworldplus.app');
+  static const privacyPolicyUrl = String.fromEnvironment('PRIVACY_URL', defaultValue: 'https://myworld-b0330.web.app/privacy');
+  static const termsUrl = String.fromEnvironment('TERMS_URL', defaultValue: 'https://myworld-b0330.web.app/terms');
+  static const supportEmail = String.fromEnvironment('SUPPORT_EMAIL', defaultValue: 'savage.dgtl@gmail.com');
+  static const inviteHost = String.fromEnvironment('INVITE_HOST', defaultValue: 'myworld-b0330.web.app');
 
   /// Test builds only: a one-tap sign-in with a pre-made tester account
   /// (also handed to store reviewers). Never set for prod builds.

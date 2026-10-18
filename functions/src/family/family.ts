@@ -4,7 +4,7 @@ import { audit, callableOpts, db, FieldValue, requireAuth, sha256, str, Timestam
 import { getEntitlement, recomputeEntitlement, recomputeUsage } from '../lib/entitlements';
 import { INVITATION_TTL_DAYS, PLANS } from '../plans';
 
-const INVITE_BASE = process.env.INVITE_LINK_BASE || 'https://myworldplus.app/invite';
+const INVITE_BASE = process.env.INVITE_LINK_BASE || 'https://myworld-b0330.web.app/invite';
 const MAX_FAILED_ATTEMPTS = 5;
 const COLLECTIONS_WITH_PRIVACY = ['documents', 'assets', 'vehicles', 'vehicleRecords', 'reminders', 'walletCards', 'businessCards'];
 

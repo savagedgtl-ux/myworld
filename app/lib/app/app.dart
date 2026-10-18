@@ -39,7 +39,7 @@ class _MyWorldAppState extends ConsumerState<MyWorldApp> {
     });
   }
 
-  /// Invitation deep links: https://myworldplus.app/invite?i=…&t=…
+  /// Invitation deep links: https://myworld-b0330.web.app/invite?i=…&t=…
   Future<void> _initLinks() async {
     final appLinks = AppLinks();
     void handle(Uri uri) {

@@ -126,6 +126,14 @@ PLANS
 
 ## 4. App content
 
+**Linkovi koje Play traži:**
+- Privacy policy: `https://myworld-b0330.web.app/privacy`
+- Delete account URL (*Data safety → Data deletion*): `https://myworld-b0330.web.app/delete-account`
+- Uslovi korišćenja: `https://myworld-b0330.web.app/terms`
+- Email za kontakt (*Store settings*): `savage.dgtl@gmail.com`
+- Developer: Danilo Savić pr Savage Digital, Subotička 100A, 21000 Novi Sad
+
+
 **App access** → *All or some functionality is restricted* → dodaj instrukciju:
 ```
 Sign in with email and password on the "Welcome back" screen.
