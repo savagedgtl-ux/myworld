@@ -19,6 +19,11 @@ abstract final class AppConfig {
       defaultValue: flavor == 'prod' ? 'ca-app-pub-9194255448126768/4973486383' : 'ca-app-pub-3940256099942544/6300978111');
   static const adUnitIos = String.fromEnvironment('ADMOB_UNIT_IOS', defaultValue: 'ca-app-pub-3940256099942544/2934735716');
 
+  /// Full-screen ad shown at natural breaks (after something new is saved).
+  static const interstitialUnitAndroid = String.fromEnvironment('ADMOB_INTERSTITIAL_ANDROID',
+      defaultValue: flavor == 'prod' ? 'ca-app-pub-9194255448126768/9240034456' : 'ca-app-pub-3940256099942544/1033173712');
+  static const interstitialUnitIos = String.fromEnvironment('ADMOB_INTERSTITIAL_IOS', defaultValue: 'ca-app-pub-3940256099942544/4411468910');
+
   /// Google Sign-In server client id (Web client id from Firebase console).
   static const googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID', defaultValue: '604089389013-pl032nb48i8ci2sl0fgrfugisrkmdjav.apps.googleusercontent.com');
 

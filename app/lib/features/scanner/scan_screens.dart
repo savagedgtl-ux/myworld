@@ -359,6 +359,11 @@ class _ScanFlowScreenState extends ConsumerState<ScanFlowScreen> {
         ]),
       );
 
+  /// No ads around the Vault: it promises an ad-free space.
+  void _adBreak() {
+    if (!widget.vault && !_input.isVault) showInterstitialAtBreak(ref);
+  }
+
   Widget _done(BuildContext context) {
     final l = context.l10n;
     return TweenAnimationBuilder<double>(
@@ -370,8 +375,17 @@ class _ScanFlowScreenState extends ConsumerState<ScanFlowScreen> {
         title: l.documentSaved,
         message: _input.requestAi ? l.documentSavedAi : null,
         actionLabel: l.openDocument,
-        onAction: () => context.pushReplacement('/documents/$_savedId'),
-        secondary: TextButton(onPressed: () => context.pop(), child: Text(l.close)),
+        onAction: () {
+          _adBreak();
+          context.pushReplacement('/documents/$_savedId');
+        },
+        secondary: TextButton(
+          onPressed: () {
+            _adBreak();
+            context.pop();
+          },
+          child: Text(l.close),
+        ),
       ),
     );
   }

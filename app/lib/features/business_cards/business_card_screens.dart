@@ -336,6 +336,7 @@ class _EditBusinessCardScreenState extends ConsumerState<EditBusinessCardScreen>
             isNew: _existing == null,
           );
       if (!mounted) return;
+      if (_existing == null) showInterstitialAtBreak(ref);
       _existing == null ? context.pushReplacement('/business-cards/$_id') : context.pop();
     } catch (e) {
       if (mounted) showError(context, e);

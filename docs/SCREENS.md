@@ -86,7 +86,7 @@ Svi ekrani su stvarni, povezani sa Firestore/Storage/Functions. Kolona „Fajl�
 | 75 | Restore Purchases | `/plans` | `subscriptions/subscription_screens.dart` |
 | 76 | Upgrade Prompt | sheet / kartica | `core/widgets/monetization.dart` |
 | 77 | Ad Consent | `/settings/privacy` (Google UMP) | `settings/settings_screens.dart` |
-| 78 | Ad Placement | `AdSlot` (samo Home) | `core/widgets/monetization.dart` |
+| 78 | Ad Placement | `AdSlot` (samo Home) + `showInterstitialAtBreak` posle čuvanja novog zapisa | `core/widgets/monetization.dart` |
 | **J** | | | |
 | 79 | Vault | `/vault` | `vault/vault_screens.dart` |
 | 80 | Vault Settings | `/settings/vault` | `vault/vault_screens.dart` |

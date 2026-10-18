@@ -12,7 +12,7 @@
 | Kontrola pristupa | Pravila baze i Storage-a, App Check, ponovna prijava za brisanje. |
 | Logovi | Bez sadržaja dokumenata, naslova, tekstova; samo ID-jevi i kodovi grešaka. |
 | AI | Šalje se samo neophodno; `store: false` u OpenAI zahtevima; bez treniranja na korisničkim podacima. Proveri OpenAI DPA i zero-data-retention opcije za tvoj nalog. |
-| Oglasi | Nikakvi podaci iz dokumenata ne idu u ad request (prazan `AdRequest`). Nema oglasa u Vault-u, skeneru, otpremanju, detaljima dokumenta, upozorenjima. |
+| Oglasi | Nikakvi podaci iz dokumenata ne idu u ad request (prazan `AdRequest`). Nema oglasa u Vault-u, skeneru, otpremanju, detaljima dokumenta, upozorenjima. Oglas preko celog ekrana samo posle čuvanja nečeg novog (nikad za Vault), ne u prvih 24 h, najviše 1 na 5 min i 3 dnevno. |
 | Deca | Profili dece nisu nalozi; aplikacija nije namenjena deci kao korisnicima. |
 
 ## Zadržavanje podataka

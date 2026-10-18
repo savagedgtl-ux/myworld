@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../app/providers.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/widgets/monetization.dart';
 import '../../core/widgets/buttons.dart';
 import '../../core/widgets/components.dart';
 import '../../core/widgets/form_fields.dart';
@@ -327,6 +328,7 @@ class _EditReminderScreenState extends ConsumerState<EditReminderScreen> {
       );
       if (!mounted) return;
       showSuccess(context, context.l10n.reminderSaved);
+      if (_existing == null) showInterstitialAtBreak(ref);
       context.pop();
     } catch (e) {
       if (mounted) showError(context, e);

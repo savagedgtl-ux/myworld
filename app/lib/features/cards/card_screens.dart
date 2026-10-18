@@ -8,6 +8,7 @@ import 'package:mobile_scanner/mobile_scanner.dart' as ms;
 import '../../app/providers.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/widgets/monetization.dart';
 import '../../core/widgets/buttons.dart';
 import '../../core/widgets/components.dart';
 import '../../core/widgets/form_fields.dart';
@@ -471,6 +472,7 @@ class _EditCardScreenState extends ConsumerState<EditCardScreen> {
         isNew: widget.id == null,
       );
       if (!mounted) return;
+      if (widget.id == null) showInterstitialAtBreak(ref);
       widget.id == null ? context.pushReplacement('/cards/$id') : context.pop();
     } catch (e) {
       if (mounted) showError(context, e);

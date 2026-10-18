@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -56,7 +58,18 @@ Future<void> showUpgradeSheet(BuildContext context, UpgradeReason reason) => sho
       builder: (_) => SafeArea(child: Padding(padding: const EdgeInsets.fromLTRB(Space.gutter, 0, Space.gutter, Space.gutter), child: UpgradePrompt(reason: reason))),
     );
 
-/// The only ad slot type in the app. Renders nothing unless the SERVER
+/// Full-screen ad at a natural break: right after the user saved something
+/// new (document, item, vehicle, record, reminder, card, contact). Free plan
+/// only, per the SERVER entitlement; consent and frequency limits live in
+/// AdsService. Never call it on app open, in Vault, during capture/upload or
+/// in front of alerts. Read before navigating away, while `ref` is still valid.
+void showInterstitialAtBreak(WidgetRef ref) {
+  final ent = ref.read(entitlementProvider);
+  if (!(ent.hasValue && ent.value!.adsEnabled)) return;
+  unawaited(ref.read(adsServiceProvider).maybeShowInterstitial());
+}
+
+/// The banner slot. Renders nothing unless the SERVER
 /// entitlement says ads are enabled (Individual Base) and consent allows it.
 /// Must never be placed in Vault, scanner, upload, document content or alerts.
 class AdSlot extends ConsumerStatefulWidget {
@@ -76,6 +89,8 @@ class _AdSlotState extends ConsumerState<AdSlot> {
     final ads = ref.read(adsServiceProvider);
     await ads.ensureReady();
     if (!ads.canRequestAds || !mounted) return;
+    // Have a full-screen ad ready for the next natural break.
+    unawaited(ads.preloadInterstitial());
     final ad = BannerAd(
       adUnitId: ads.bannerUnitId,
       size: AdSize.mediumRectangle,

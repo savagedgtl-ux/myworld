@@ -617,6 +617,7 @@ class _EditVehicleScreenState extends ConsumerState<EditVehicleScreen> {
         isNew: widget.id == null,
       );
       if (!mounted) return;
+      if (widget.id == null) showInterstitialAtBreak(ref);
       widget.id == null ? context.pushReplacement('/vehicles/$id') : context.pop();
     } catch (e) {
       if (mounted) showError(context, e);
@@ -784,7 +785,9 @@ class _EditVehicleRecordScreenState extends ConsumerState<EditVehicleRecordScree
           return;
         }
       }
-      if (mounted) context.pop();
+      if (!mounted) return;
+      if (_existing == null) showInterstitialAtBreak(ref);
+      context.pop();
     } catch (e) {
       if (mounted) showError(context, e);
     } finally {
