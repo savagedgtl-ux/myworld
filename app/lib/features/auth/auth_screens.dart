@@ -10,6 +10,7 @@ import '../../core/config/app_config.dart';
 import '../../core/errors/app_error.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/languages.dart';
 import '../../core/widgets/buttons.dart';
 import '../../core/widgets/form_fields.dart';
 import '../../core/widgets/states.dart';
@@ -439,7 +440,7 @@ class ProfileSetupScreen extends ConsumerStatefulWidget {
 
 class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
   final _name = TextEditingController();
-  String _lang = 'sr';
+  String _lang = deviceLanguage();
   bool _busy = false;
 
   @override
@@ -461,10 +462,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
         DropdownButtonFormField<String>(
           initialValue: _lang,
           decoration: InputDecoration(labelText: l.language),
-          items: [
-            DropdownMenuItem(value: 'sr', child: Text(l.langSerbian)),
-            DropdownMenuItem(value: 'en', child: Text(l.langEnglish)),
-          ],
+          items: [for (final code in supportedLanguages) DropdownMenuItem(value: code, child: Text(languageName(l, code)))],
           onChanged: (v) => setState(() => _lang = v ?? 'sr'),
         ),
         const SizedBox(height: Space.xl),

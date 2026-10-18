@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/config/app_config.dart';
 import '../core/theme/app_theme.dart';
+import '../core/utils/languages.dart';
 import '../domain/models/entities.dart';
 import '../l10n/app_localizations.dart';
 import 'providers.dart';
@@ -14,8 +15,7 @@ import 'router.dart';
 
 /// App language follows the user's profile setting; Serbian uses Latin script.
 final localeProvider = Provider<Locale>((ref) {
-  final lang = ref.watch(userProfileProvider).value?.preferredLanguage ?? 'sr';
-  return lang == 'en' ? const Locale('en') : const Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn');
+  return localeForLanguage(ref.watch(userProfileProvider).value?.preferredLanguage);
 });
 
 class MyWorldApp extends ConsumerStatefulWidget {
@@ -94,7 +94,15 @@ class _MyWorldAppState extends ConsumerState<MyWorldApp> {
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       locale: locale,
-      supportedLocales: const [Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn'), Locale('sr'), Locale('en')],
+      supportedLocales: const [
+        Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn'),
+        Locale('sr'),
+        Locale('en'),
+        Locale('de'),
+        Locale('fr'),
+        Locale('es'),
+        Locale('ru'),
+      ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

@@ -6,6 +6,10 @@ import { nextOccurrence, RepeatRule } from '../lib/recurrence';
 const TEXT: Record<string, { title: string; generic: string; due: string }> = {
   sr: { title: 'MyWorld+ podsetnik', generic: 'Imaš podsetnik koji zahteva pažnju.', due: 'Rok: ' },
   en: { title: 'MyWorld+ reminder', generic: 'You have a reminder that needs attention.', due: 'Due: ' },
+  de: { title: 'MyWorld+ Erinnerung', generic: 'Du hast eine Erinnerung, die Aufmerksamkeit braucht.', due: 'Fällig: ' },
+  fr: { title: 'Rappel MyWorld+', generic: 'Vous avez un rappel qui demande votre attention.', due: 'Échéance : ' },
+  es: { title: 'Recordatorio de MyWorld+', generic: 'Tienes un recordatorio que requiere tu atención.', due: 'Vence: ' },
+  ru: { title: 'Напоминание MyWorld+', generic: 'У вас есть напоминание, требующее внимания.', due: 'Срок: ' },
 };
 
 async function recipientsFor(r: FirebaseFirestore.DocumentData): Promise<string[]> {
@@ -21,7 +25,8 @@ async function recipientsFor(r: FirebaseFirestore.DocumentData): Promise<string[
 
 async function notify(uid: string, r: FirebaseFirestore.DocumentData, reminderId: string) {
   const user = await db.collection('users').doc(uid).get();
-  const lang = user.get('preferredLanguage') === 'en' ? 'en' : 'sr';
+  const pref = user.get('preferredLanguage');
+  const lang = typeof pref === 'string' && Object.hasOwn(TEXT, pref) ? pref : 'sr';
   // Default is a generic text so lock-screen previews never reveal private details.
   const showDetails = user.get('notificationPreview') === 'detailed';
   const t = TEXT[lang];

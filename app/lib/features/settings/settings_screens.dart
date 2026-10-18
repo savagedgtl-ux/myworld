@@ -14,6 +14,7 @@ import '../../core/config/app_config.dart';
 import '../../core/errors/app_error.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
+import '../../core/utils/languages.dart';
 import '../../core/widgets/buttons.dart';
 import '../../core/widgets/components.dart';
 import '../../core/widgets/form_fields.dart';
@@ -96,9 +97,9 @@ class SettingsScreen extends ConsumerWidget {
           leading: const Icon(Icons.language),
           title: Text(l.language),
           trailing: DropdownButton<String>(
-            value: p?.preferredLanguage ?? 'sr',
+            value: localeForLanguage(p?.preferredLanguage).languageCode,
             underline: const SizedBox.shrink(),
-            items: [DropdownMenuItem(value: 'sr', child: Text(l.langSerbian)), DropdownMenuItem(value: 'en', child: Text(l.langEnglish))],
+            items: [for (final code in supportedLanguages) DropdownMenuItem(value: code, child: Text(languageName(l, code)))],
             onChanged: (v) => ref.read(userRepoProvider).updateProfile(ref.read(uidProvider)!, language: v),
           ),
         ),

@@ -1,3 +1,4 @@
+import '../../core/utils/languages.dart';
 import '../plans.dart';
 import 'common.dart';
 
@@ -33,7 +34,8 @@ class UserProfile {
         displayName: text(m['displayName']),
         email: text(m['email']),
         photoUrl: text(m['photoUrl']),
-        preferredLanguage: m['preferredLanguage'] as String? ?? 'sr',
+        // Not chosen yet (fresh account): follow the phone until profile setup.
+        preferredLanguage: m['preferredLanguage'] as String? ?? deviceLanguage(),
         region: text(m['region']),
         activeFamilyId: text(m['activeFamilyId']),
         onboardingCompleted: m['onboardingCompleted'] == true,
