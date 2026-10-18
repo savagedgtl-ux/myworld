@@ -38,3 +38,4 @@ app/android/.gradle/
 app/android/local.properties
 app/android/app/.cxx/
 app/android/.kotlin/
+release/
