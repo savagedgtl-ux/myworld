@@ -13,7 +13,10 @@ abstract final class AppConfig {
   static const revenueCatGoogleKey = String.fromEnvironment('REVENUECAT_GOOGLE_KEY');
 
   /// AdMob ad unit for the single native/banner slot (Individual Base only).
-  static const adUnitAndroid = String.fromEnvironment('ADMOB_UNIT_ANDROID', defaultValue: 'ca-app-pub-3940256099942544/6300978111');
+  /// Real unit only in prod builds; everything else shows Google's test ads so
+  /// nobody clicks our own ads by accident.
+  static const adUnitAndroid = String.fromEnvironment('ADMOB_UNIT_ANDROID',
+      defaultValue: flavor == 'prod' ? 'ca-app-pub-9194255448126768/4973486383' : 'ca-app-pub-3940256099942544/6300978111');
   static const adUnitIos = String.fromEnvironment('ADMOB_UNIT_IOS', defaultValue: 'ca-app-pub-3940256099942544/2934735716');
 
   /// Google Sign-In server client id (Web client id from Firebase console).

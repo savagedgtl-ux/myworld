@@ -32,9 +32,9 @@ android {
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // Firebase + ML Kit document scanner + biometrics.
         minSdk = maxOf(flutter.minSdkVersion, 24)
-        // AdMob app id: -PADMOB_APP_ID=ca-app-pub-xxx~yyy (defaults to Google's test id).
+        // AdMob app id (override with -PADMOB_APP_ID=ca-app-pub-xxx~yyy).
         manifestPlaceholders["admobAppId"] =
-            (project.findProperty("ADMOB_APP_ID") as String?) ?: "ca-app-pub-3940256099942544~3347511713"
+            (project.findProperty("ADMOB_APP_ID") as String?) ?: "ca-app-pub-9194255448126768~6398248699"
         targetSdk = flutter.targetSdkVersion
         // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
         // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)

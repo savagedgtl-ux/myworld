@@ -17,9 +17,9 @@ Build za Play (App Bundle, bez test dugmeta):
 cd app
 flutter build appbundle --release \
   --dart-define=FLAVOR=prod \
-  --dart-define=REVENUECAT_GOOGLE_KEY=goog_xxx \
-  --dart-define=ADMOB_UNIT_ANDROID=ca-app-pub-xxx/yyy \
-  -PADMOB_APP_ID=ca-app-pub-xxx~yyy
+  --dart-define=REVENUECAT_GOOGLE_KEY=goog_xxx
+# AdMob: App ID ca-app-pub-9194255448126768~6398248699 i banner jedinica
+# ca-app-pub-9194255448126768/4973486383 su već podrazumevani za FLAVOR=prod.
 # → build/app/outputs/bundle/release/app-release.aab
 ```
 
