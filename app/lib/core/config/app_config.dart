@@ -39,4 +39,5 @@ abstract final class AppConfig {
   static bool get hasTestLogin => !isProd && testLoginEmail.isNotEmpty && testLoginPassword.isNotEmpty;
 
   static bool get isProd => flavor == 'prod';
+  static const isProdBuild = flavor == 'prod';
 }

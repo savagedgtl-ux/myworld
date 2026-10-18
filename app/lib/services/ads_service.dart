@@ -19,9 +19,10 @@ class AdsService {
   bool _interstitialLoading = false;
 
   /// Interstitial limits: no full-screen ads in the first day of use, at most
-  /// one every few minutes and a few per day.
-  static const interstitialGrace = Duration(hours: 24);
-  static const interstitialGap = Duration(minutes: 5);
+  /// one every few minutes and a few per day. Test builds relax the timing so
+  /// the ad can be checked right away.
+  static const interstitialGrace = AppConfig.isProdBuild ? Duration(hours: 24) : Duration.zero;
+  static const interstitialGap = AppConfig.isProdBuild ? Duration(minutes: 5) : Duration(seconds: 30);
   static const interstitialDailyCap = 3;
   static const _kFirstSeen = 'ads.firstSeen';
   static const _kLastShown = 'ads.lastShown';
@@ -110,9 +111,10 @@ class AdsService {
     final firstSeen = int.tryParse(await _storage.read(key: _kFirstSeen) ?? '');
     if (firstSeen == null) {
       await _storage.write(key: _kFirstSeen, value: '${now.millisecondsSinceEpoch}');
+      if (interstitialGrace > Duration.zero) return false;
+    } else if (now.difference(DateTime.fromMillisecondsSinceEpoch(firstSeen)) < interstitialGrace) {
       return false;
     }
-    if (now.difference(DateTime.fromMillisecondsSinceEpoch(firstSeen)) < interstitialGrace) return false;
     final last = int.tryParse(await _storage.read(key: _kLastShown) ?? '');
     if (last != null && now.difference(DateTime.fromMillisecondsSinceEpoch(last)) < interstitialGap) return false;
     final sameDay = await _storage.read(key: _kDay) == _dayKey(now);
