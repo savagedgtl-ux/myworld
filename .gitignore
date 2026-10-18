@@ -33,3 +33,7 @@ app/ios/.symlinks/
 app/coverage/
 .idea/
 .vscode/
+app/android/build/
+app/android/.gradle/
+app/android/local.properties
+app/android/app/.cxx/
