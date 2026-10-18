@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../core/config/app_config.dart';
@@ -26,7 +27,16 @@ class AuthService {
   }
 
   /// Ensures server-side docs (entitlement, usage) exist. Safe to call often.
-  Future<void> _afterSignIn() => _functions.call('bootstrapAccount');
+  /// Best effort: the user is already signed in at this point, and the app
+  /// falls back to the base entitlement until the docs appear, so a missing or
+  /// unreachable function must not turn a successful sign-in into an error.
+  Future<void> _afterSignIn() async {
+    try {
+      await _functions.call('bootstrapAccount', const {}, const Duration(seconds: 15));
+    } catch (e) {
+      debugPrint('bootstrapAccount failed: $e');
+    }
+  }
 
   Future<void> signInWithEmail(String email, String password) => _guard(() async {
         await _auth.signInWithEmailAndPassword(email: email.trim(), password: password);
