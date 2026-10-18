@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "myworldplus-dev",
-    "dev": "myworldplus-dev",
+    "default": "myworld-b0330",
+    "dev": "myworld-b0330",
     "staging": "myworldplus-staging",
     "prod": "myworldplus-prod"
   }
