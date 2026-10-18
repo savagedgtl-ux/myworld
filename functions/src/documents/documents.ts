@@ -4,7 +4,6 @@ import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as logger from 'firebase-functions/logger';
 import { audit, bucket, callableOpts, db, FieldValue, REGION, requireAuth, str, Timestamp } from '../lib/admin';
-import { getEntitlement } from '../lib/entitlements';
 import { isCompatible, sniffMime } from '../lib/fileSniff';
 import { EXPORT_TTL_DAYS, MAX_UPLOAD_BYTES, TRASH_RETENTION_DAYS } from '../plans';
 
@@ -20,8 +19,13 @@ async function readHead(name: string): Promise<Uint8Array> {
   return new Uint8Array(Buffer.concat(chunks));
 }
 
-async function usageKeyFor(uid: string): Promise<string> {
-  return (await getEntitlement(uid)).usageKey;
+/**
+ * Usage pool of a user, or null when the account no longer exists (e.g. the
+ * delete-account cleanup is firing these triggers) — never recreate its docs.
+ */
+async function usageKeyFor(uid: string): Promise<string | null> {
+  const e = await db.collection('entitlements').doc(uid).get();
+  return e.exists ? (e.get('usageKey') as string) : null;
 }
 
 /**
@@ -53,7 +57,7 @@ export const onFileUploaded = onObjectFinalized({ region: REGION, memory: '256Mi
   }
 
   const key = await usageKeyFor(ownerUid);
-  await db.collection('usage').doc(key).set({ storageUsedBytes: FieldValue.increment(size) }, { merge: true });
+  if (key) await db.collection('usage').doc(key).set({ storageUsedBytes: FieldValue.increment(size) }, { merge: true });
 
   if (docMatch) {
     const ref = db.collection('documents').doc(docMatch[2]);
@@ -70,6 +74,7 @@ export const onFileDeleted = onObjectDeleted({ region: REGION }, async (event) =
   const m = DOC_PATH.exec(name) ?? PHOTO_PATH.exec(name);
   if (!m) return;
   const key = await usageKeyFor(m[1]);
+  if (!key) return;
   await db.collection('usage').doc(key).set(
     { storageUsedBytes: FieldValue.increment(-Number(event.data.size ?? 0)) }, { merge: true });
 });
@@ -83,6 +88,7 @@ export const onDocumentRecordWritten = onDocumentWritten({ document: 'documents/
   if (wasActive === isActive) return;
   const owner = (after?.exists ? after : before)!.get('ownerUid');
   const key = await usageKeyFor(owner);
+  if (!key) return;
   await db.collection('usage').doc(key).set(
     { activeDocumentCount: FieldValue.increment(isActive ? 1 : -1) }, { merge: true });
   if (!isActive && after?.exists) await audit('document_trashed', owner, { documentId: event.params.docId });

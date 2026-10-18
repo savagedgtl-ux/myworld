@@ -107,6 +107,9 @@ export const deleteAccount = onCall({ ...callableOpts, timeoutSeconds: 540, secr
     }
   }
   await db.collection('users').doc(uid).set({ accountStatus: 'deleting' }, { merge: true });
+  // Remove server docs first so cleanup-triggered usage updates are no-ops.
+  await db.collection('entitlements').doc(uid).delete();
+  await db.collection('usage').doc(uid).delete();
 
   // Remove this user from anything shared with them.
   for (const col of RECORD_COLLECTIONS) {
@@ -148,8 +151,6 @@ export const deleteAccount = onCall({ ...callableOpts, timeoutSeconds: 540, secr
     logger.warn('revenuecat_delete_failed', { error: String(e) });
   }
 
-  await db.collection('entitlements').doc(uid).delete();
-  await db.collection('usage').doc(uid).delete();
   await db.collection('users').doc(uid).delete();
   await audit('account_deleted', anon, {});
   await auth().deleteUser(uid).catch((e) => {

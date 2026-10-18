@@ -38,6 +38,13 @@ async function adminSet(path, fields) {
   if (!res.ok) throw new Error(await res.text());
 }
 
+async function adminGet(path) {
+  const res = await fetch(`http://127.0.0.1:8080/v1/projects/${PROJECT}/databases/(default)/documents/${path}`, {
+    headers: { Authorization: `Bearer ${ADMIN_TOKEN}` },
+  });
+  return res.status === 200 ? res.json() : null;
+}
+
 async function signUp(ctx, email) {
   const cred = await createUserWithEmailAndPassword(ctx.auth, email, 'Test-password-123');
   await ctx.call('bootstrapAccount', {});
@@ -136,9 +143,22 @@ describe('server-side enforcement', () => {
     expect(ent.get('planId')).toBe('individual_base');
   });
 
-  it('account deletion requires a recent login and works', async () => {
+  it('account deletion removes server-side data and is not resurrected by triggers', async () => {
+    const outUid = outsider.auth.currentUser.uid;
+    const id = `outdoc${stamp}`;
+    await setDoc(doc(outsider.db, 'documents', id), {
+      documentId: id, ownerUid: outUid, familyId: null, title: 'Moj račun', fileType: 'pdf', mimeType: 'application/pdf',
+      storagePath: `users/${outUid}/documents/${id}/f.pdf`, fileSizeBytes: 10, pageCount: 1,
+      privacyLevel: 'private', sharedWith: [], linkedEntityIds: [], tags: [], processingStatus: 'uploading',
+      isFavorite: false, deletedAt: null,
+    });
     const r = await outsider.call('deleteAccount', {});
     expect(r.ok).toBe(true);
+    await new Promise((res) => setTimeout(res, 3000)); // let document triggers run
+    expect(await adminGet(`documents/${id}`)).toBeNull();
+    expect(await adminGet(`users/${outUid}`)).toBeNull();
+    expect(await adminGet(`entitlements/${outUid}`)).toBeNull();
+    expect(await adminGet(`usage/${outUid}`)).toBeNull();
     await signOut(outsider.auth);
   });
 });
