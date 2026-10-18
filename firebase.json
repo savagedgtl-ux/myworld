@@ -81,6 +81,14 @@
       {
         "source": "/invite",
         "destination": "/invite.html"
+      },
+      {
+        "source": "/privacy",
+        "destination": "/privacy.html"
+      },
+      {
+        "source": "/delete-account",
+        "destination": "/delete-account.html"
       }
     ]
   }

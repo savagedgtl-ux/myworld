@@ -3,6 +3,6 @@
   "target": {
     "namespace": "android_app",
     "package_name": "app.myworldplus.myworld_plus",
-    "sha256_cert_fingerprints": ["REPLACE_WITH_RELEASE_SIGNING_SHA256", "REPLACE_WITH_PLAY_APP_SIGNING_SHA256"]
+    "sha256_cert_fingerprints": ["44:50:71:19:76:46:7C:13:7C:A8:4F:FF:A1:F9:56:C8:32:C9:C3:EB:36:FE:76:B9:C4:86:AB:A8:87:53:0B:ED"]
   }
 }]
