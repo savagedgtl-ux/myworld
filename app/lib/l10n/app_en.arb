@@ -761,5 +761,7 @@
   "warrantyPrintedUntil": "On the document: until {date}",
   "warrantyUntilShort": "Warranty until {date}",
   "willBeSavedIn": "Will be saved in: {destination}",
-  "wrongPin": "{count, plural, one{Wrong PIN. {count} attempt left.} other{Wrong PIN. {count} attempts left.}}"
+  "wrongPin": "{count, plural, one{Wrong PIN. {count} attempt left.} other{Wrong PIN. {count} attempts left.}}",
+  "suggestedLinks": "Suggested links",
+  "suggestedLinksHelp": "We found items that match this document. Tick the ones you want to link."
 }

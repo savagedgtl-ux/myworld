@@ -2632,4 +2632,11 @@ class AppLocalizationsSr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get suggestedLinks => 'Predložene veze';
+
+  @override
+  String get suggestedLinksHelp =>
+      'Pronašli smo stvari koje odgovaraju dokumentu. Označi one sa kojima želiš da ga povežeš.';
 }

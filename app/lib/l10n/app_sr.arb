@@ -1138,5 +1138,7 @@
         "type": "int"
       }
     }
-  }
+  },
+  "suggestedLinks": "Predložene veze",
+  "suggestedLinksHelp": "Pronašli smo stvari koje odgovaraju dokumentu. Označi one sa kojima želiš da ga povežeš."
 }

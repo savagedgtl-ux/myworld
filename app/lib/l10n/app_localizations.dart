@@ -4669,6 +4669,18 @@ abstract class AppLocalizations {
   /// In sr, this message translates to:
   /// **'{count, plural, one{Pogrešan PIN. Ostao je još {count} pokušaj.} few{Pogrešan PIN. Ostala su još {count} pokušaja.} other{Pogrešan PIN. Ostalo je još {count} pokušaja.}}'**
   String wrongPin(int count);
+
+  /// No description provided for @suggestedLinks.
+  ///
+  /// In sr, this message translates to:
+  /// **'Predložene veze'**
+  String get suggestedLinks;
+
+  /// No description provided for @suggestedLinksHelp.
+  ///
+  /// In sr, this message translates to:
+  /// **'Pronašli smo stvari koje odgovaraju dokumentu. Označi one sa kojima želiš da ga povežeš.'**
+  String get suggestedLinksHelp;
 }
 
 class _AppLocalizationsDelegate

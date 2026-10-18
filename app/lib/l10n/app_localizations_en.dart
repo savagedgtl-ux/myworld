@@ -2622,4 +2622,11 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get suggestedLinks => 'Suggested links';
+
+  @override
+  String get suggestedLinksHelp =>
+      'We found items that match this document. Tick the ones you want to link.';
 }

@@ -10,8 +10,11 @@ import '../../core/widgets/components.dart';
 import '../../core/widgets/form_fields.dart';
 import '../../core/widgets/states.dart';
 import '../../domain/categories.dart';
+import '../../domain/logic/search.dart';
 import '../../domain/logic/validation.dart';
+import '../../domain/models/account.dart';
 import '../../domain/models/document.dart';
+import '../../domain/models/entities.dart';
 
 /// Shows AI suggestions next to current values. Nothing is applied until the
 /// user confirms; every field can be corrected. Warranty dates are always
@@ -36,6 +39,7 @@ class _ExtractionReviewScreenState extends ConsumerState<ExtractionReviewScreen>
   DateTime? _expiry;
   List<String> _tags = [];
   final Set<String> _accepted = {};
+  Set<String>? _links;
   bool _busy = false;
 
   void _init(DocumentRecord d, Extraction x) {
@@ -51,6 +55,27 @@ class _ExtractionReviewScreenState extends ConsumerState<ExtractionReviewScreen>
     _warranty = d.warrantyExpiryDate;
     _expiry = x.isoDate('expiryDate') ?? d.expiryDate;
     _tags = {...d.tags, ...((x.fields['suggestedTags'] as List?)?.whereType<String>() ?? const <String>[])}.toList();
+    _links = d.linkedEntityIds.toSet();
+  }
+
+  /// Suggested links: own items/vehicles/profiles whose name matches what the
+  /// AI read (product, vendor, title). Only applied if the user ticks them.
+  List<({String id, String label, IconData icon})> _linkSuggestions(Extraction x) {
+    final words = [x.str('productName'), x.str('title')].whereType<String>().join(' ');
+    if (words.trim().isEmpty) return const [];
+    final uid = ref.read(uidProvider);
+    bool hit(Iterable<String?> fields) {
+      final hay = normalizeText(fields.whereType<String>().join(' '));
+      return normalizeText(words).split(' ').where((t) => t.length >= 3).any((t) => termMatches(hay, t));
+    }
+    return [
+      for (final a in ref.watch(assetsProvider).value ?? const <Asset>[])
+        if (a.ownerUid == uid && hit([a.name, a.brand, a.model])) (id: a.id, label: a.name, icon: Icons.chair_outlined),
+      for (final v in ref.watch(vehiclesProvider).value ?? const <Vehicle>[])
+        if (v.ownerUid == uid && hit([v.make, v.model, v.registrationNumber])) (id: v.id, label: v.displayName, icon: Icons.directions_car_outlined),
+      for (final p in ref.watch(familyProfilesProvider).value ?? const <FamilyProfile>[])
+        if (hit([p.name])) (id: p.id, label: p.name, icon: Icons.person_outline),
+    ].take(6).toList();
   }
 
   @override
@@ -154,6 +179,18 @@ class _ExtractionReviewScreenState extends ConsumerState<ExtractionReviewScreen>
           DateField(label: l.expiryDate, value: _expiry, onChanged: (v) => setState(() => _expiry = v)),
           fieldGap,
           TagsField(tags: _tags, onChanged: (t) => setState(() => _tags = t)),
+          if (_linkSuggestions(x).isNotEmpty) ...[
+            SectionHeader(title: l.suggestedLinks),
+            Text(l.suggestedLinksHelp, style: Theme.of(context).textTheme.bodySmall),
+            for (final s in _linkSuggestions(x))
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                secondary: Icon(s.icon),
+                title: Text(s.label),
+                value: _links!.contains(s.id),
+                onChanged: (v) => setState(() => v == true ? _links!.add(s.id) : _links!.remove(s.id)),
+              ),
+          ],
           const SizedBox(height: Space.xl),
           PrimaryButton(label: l.confirmAndSave, loading: _busy, onPressed: () => _save(d)),
           const SizedBox(height: Space.sm),
@@ -184,6 +221,7 @@ class _ExtractionReviewScreenState extends ConsumerState<ExtractionReviewScreen>
         'warrantyExpiryDate': _warranty,
         'expiryDate': _expiry,
         'tags': _tags,
+        'linkedEntityIds': _links?.toList() ?? d.linkedEntityIds,
         'processingStatus': 'ready',
       });
       if (!mounted) return;
