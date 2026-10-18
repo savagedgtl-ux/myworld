@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  flutter:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: app } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - run: flutter analyze
+      - run: flutter test
+
+  functions:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: functions } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: functions/package-lock.json }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+
+  security-rules-and-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - run: npm i -g firebase-tools@14
+      - run: npm ci
+        working-directory: functions
+      - run: npm ci
+        working-directory: rules-tests
+      - name: Firestore + Storage rules (emulator)
+        run: firebase emulators:exec --only firestore,storage --project demo-myworld "cd rules-tests && npx vitest run firestore.test.js storage.test.js"
+      - name: Functions integration (emulator)
+        run: |
+          printf 'OPENAI_API_KEY=test\nREVENUECAT_SECRET_API_KEY=\nREVENUECAT_WEBHOOK_AUTH=test\n' > functions/.secret.local
+          npm --prefix functions run build
+          firebase emulators:exec --only auth,firestore,storage,functions --project demo-myworld "cd rules-tests && npx vitest run functions.int.test.js"

@@ -102,6 +102,51 @@ class _MyWorldAppState extends ConsumerState<MyWorldApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: router,
+      builder: (context, child) => PrivacyCover(child: child ?? const SizedBox.shrink()),
     );
   }
+}
+
+/// Covers the UI when the app is inactive/backgrounded so the OS app-switcher
+/// snapshot never shows private document content (iOS; Android also disables
+/// Recents screenshots natively in MainActivity).
+class PrivacyCover extends StatefulWidget {
+  const PrivacyCover({super.key, required this.child});
+  final Widget child;
+  @override
+  State<PrivacyCover> createState() => _PrivacyCoverState();
+}
+
+class _PrivacyCoverState extends State<PrivacyCover> with WidgetsBindingObserver {
+  bool _covered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final cover = state != AppLifecycleState.resumed;
+    if (cover != _covered) setState(() => _covered = cover);
+  }
+
+  @override
+  Widget build(BuildContext context) => Stack(children: [
+        widget.child,
+        if (_covered)
+          Positioned.fill(
+            child: ColoredBox(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: const Center(child: Icon(Icons.lock_outline, size: 48)),
+            ),
+          ),
+      ]);
 }

@@ -1,1 +1,4 @@
 #include "Generated.xcconfig"
+// Google test id by default; real id comes from Secrets.xcconfig (gitignored).
+ADMOB_APP_ID = ca-app-pub-3940256099942544~1458002511
+#include? "Secrets.xcconfig"
