@@ -1924,6 +1924,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInTitle => 'Welcome back';
 
   @override
+  String get signInAsTester => 'Sign in as tester';
+
+  @override
   String get signOut => 'Sign out';
 
   @override

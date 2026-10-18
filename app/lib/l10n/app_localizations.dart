@@ -3716,6 +3716,12 @@ abstract class AppLocalizations {
   /// **'Dobro došao nazad'**
   String get signInTitle;
 
+  /// No description provided for @signInAsTester.
+  ///
+  /// In sr, this message translates to:
+  /// **'Uđi kao tester'**
+  String get signInAsTester;
+
   /// No description provided for @signOut.
   ///
   /// In sr, this message translates to:

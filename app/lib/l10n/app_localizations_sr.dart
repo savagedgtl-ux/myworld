@@ -1916,6 +1916,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get signInTitle => 'Dobro došao nazad';
 
   @override
+  String get signInAsTester => 'Uđi kao tester';
+
+  @override
   String get signOut => 'Odjavi se';
 
   @override

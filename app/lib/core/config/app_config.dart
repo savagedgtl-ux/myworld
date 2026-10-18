@@ -24,5 +24,11 @@ abstract final class AppConfig {
   static const supportEmail = String.fromEnvironment('SUPPORT_EMAIL', defaultValue: 'support@myworldplus.app');
   static const inviteHost = String.fromEnvironment('INVITE_HOST', defaultValue: 'myworldplus.app');
 
+  /// Test builds only: a one-tap sign-in with a pre-made tester account
+  /// (also handed to store reviewers). Never set for prod builds.
+  static const testLoginEmail = String.fromEnvironment('TEST_LOGIN_EMAIL');
+  static const testLoginPassword = String.fromEnvironment('TEST_LOGIN_PASSWORD');
+  static bool get hasTestLogin => !isProd && testLoginEmail.isNotEmpty && testLoginPassword.isNotEmpty;
+
   static bool get isProd => flavor == 'prod';
 }

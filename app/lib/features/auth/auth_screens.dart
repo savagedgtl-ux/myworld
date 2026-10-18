@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/providers.dart';
+import '../../core/config/app_config.dart';
 import '../../core/errors/app_error.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/utils/formatters.dart';
@@ -224,6 +225,17 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     }
   }
 
+  Future<void> _testSignIn() async {
+    setState(() => _busy = true);
+    try {
+      await ref.read(authServiceProvider).signInWithEmail(AppConfig.testLoginEmail, AppConfig.testLoginPassword);
+    } catch (e) {
+      if (mounted) showError(context, e);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
@@ -286,6 +298,10 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     ),
                   const SizedBox(height: Space.md),
                   PrimaryButton(label: up ? l.createAccount : l.signIn, loading: _busy, onPressed: up && !_acceptedTerms ? null : _submit),
+                  if (AppConfig.hasTestLogin && !up) ...[
+                    const SizedBox(height: Space.md),
+                    SecondaryButton(label: l.signInAsTester, icon: Icons.science_outlined, onPressed: _busy ? null : _testSignIn),
+                  ],
                   const SizedBox(height: Space.xl),
                   _SocialButtons(onBusy: (b) => setState(() => _busy = b)),
                   const SizedBox(height: Space.lg),
