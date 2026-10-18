@@ -40,3 +40,6 @@ app/android/app/.cxx/
 app/android/.kotlin/
 release/
 !functions/.env.myworld-b0330
+
+# Locally built APKs handed out for testing
+dist/
