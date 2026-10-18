@@ -1,0 +1,1142 @@
+{
+  "@@locale": "sr",
+  "accept": "Prihvati",
+  "acceptTerms": "Prihvatam uslove korišćenja i politiku privatnosti",
+  "accessUntil": "Pristup do",
+  "adConsent": "Saglasnost za oglase",
+  "adConsentHelp": "Upravljaj izborom personalizovanih oglasa. Sadržaj tvojih dokumenata se nikada ne koristi za oglase.",
+  "adLabel": "Oglas",
+  "add": "Dodaj",
+  "addBusinessCard": "Dodaj vizit kartu",
+  "addBusinessCardHint": "Fotografiši tuđu vizit kartu",
+  "addCategory": "Nova kategorija",
+  "addDocument": "Dodaj dokument",
+  "addFamilyMember": "Dodaj člana porodice",
+  "addFamilyMemberHint": "Profil za člana domaćinstva, npr. dete",
+  "addFavorite": "Dodaj u omiljene",
+  "addImage": "Otpremi sliku",
+  "addImageHint": "Izaberi fotografije iz galerije",
+  "addItem": "Dodaj predmet",
+  "addItemHint": "Uređaj, nameštaj, oprema, kolekcija…",
+  "addMemberHelp": "Profil ne zahteva nalog niti osetljive podatke. Dokumenti se povezuju sa profilom, a vidljivost određuje svaki dokument posebno.",
+  "addPage": "Dodaj stranu",
+  "addPdf": "Otpremi PDF",
+  "addPdfHint": "Postojeći PDF sa telefona",
+  "addPhoto": "Fotografiši",
+  "addPhotoHint": "Jedna fotografija kamerom",
+  "addRecord": "Dodaj evidenciju",
+  "addReminder": "Dodaj podsetnik",
+  "addReminderHint": "Rok, obnova, godišnjica…",
+  "addRepairReceipt": "Dodaj račun za popravku",
+  "addScan": "Skeniraj dokument",
+  "addScanHint": "Kamera prepoznaje ivice, više strana u jedan PDF",
+  "addServiceRecord": "Račun za servis ili trošak",
+  "addServiceRecordHint": "Za ovo vozilo",
+  "addTitle": "Šta dodaješ?",
+  "addVehicle": "Dodaj vozilo",
+  "addVehicleRecord": "Evidencija vozila",
+  "addVehicleRecordHint": "Servis, registracija, gorivo, gume…",
+  "addWalletCard": "Dodaj karticu",
+  "addWalletCardHint": "Kartica lojalnosti, popust ili kupon",
+  "address": "Adresa",
+  "adsOffForPlan": "Tvoj paket je bez oglasa.",
+  "aiAnalyze": "AI analiza dokumenta",
+  "aiAnalyzeAgain": "Analiziraj pomoću AI",
+  "aiAnalyzeHelp": "AI predlaže naziv, datum, iznos i kategoriju. Ti potvrđuješ pre čuvanja.",
+  "aiAndYourData": "AI i tvoji podaci",
+  "aiAnswer": "Odgovor",
+  "aiDataNote": "Kada koristiš AI, šalje se samo ono što je potrebno za taj zahtev: tekst ili slika jednog dokumenta za analizu, odnosno kratki metapodaci dozvoljenih zapisa za pitanje. Vault dokumenti se ne koriste u pitanjima. Podaci se ne koriste za treniranje modela i ne čuvaju se kod AI servisa.",
+  "aiExample1": "Kada mi ističe garancija za mašinu za veš?",
+  "aiExample2": "Koliko sam potrošio na automobil ove godine?",
+  "aiExample3": "Pronađi ugovore koji ističu u naredna tri meseca.",
+  "aiExample4": "Koje račune imam za kupovine preko 200 evra?",
+  "aiFilledCheck": "Polja su popunjena. Proveri ih pre čuvanja.",
+  "aiHint": "Postavi pitanje o svojim podacima…",
+  "aiInsufficientNote": "Odgovaram samo na osnovu sačuvanih podataka. Ako nešto nedostaje, dodaj dokument ili dopuni podatke.",
+  "aiIntro": "Pitaj o svojim dokumentima, stvarima, vozilima i rokovima. Odgovor uvek sadrži izvore.",
+  "aiLimitsNote": "Mesečni limit štiti od neočekivanih troškova. Resetuje se početkom meseca.",
+  "aiNoData": "Nemam dovoljno podataka da odgovorim na ovo pitanje.",
+  "aiNotInPlanHint": "AI analiza je dostupna u Individual Pro i Family Pro paketima. Dokument možeš da sačuvaš i uređuješ ručno.",
+  "aiPrivacyNote": "AI vidi samo zapise kojima ti imaš pristup.",
+  "aiProcessing": "AI obrađuje dokument…",
+  "aiRequestsThisMonth": "AI zahtevi ovog meseca",
+  "aiSearchLocked": "AI pretraga prirodnim jezikom je dostupna u Pro paketima",
+  "aiThinking": "Tražim u tvojim podacima…",
+  "aiUsage": "AI potrošnja i limiti",
+  "aiVerifyNote": "AI može da pogreši. Važne informacije proveri u izvoru.",
+  "all": "Sve",
+  "allDocuments": "Svi dokumenti",
+  "allItems": "Svi predmeti",
+  "allow": "Dozvoli",
+  "amount": "Iznos",
+  "analyticsConsent": "Anonimna analitika korišćenja",
+  "analyticsConsentHelp": "Pomaže nam da poboljšamo aplikaciju. Nikada ne šalje sadržaj, nazive ni podatke iz dokumenata.",
+  "anyTime": "Bilo kada",
+  "appTitle": "MyWorld+",
+  "appWorksWithoutAi": "Aplikacija radi i bez AI: čuvanje, pregled, pretraga i podsetnici su dostupni u svim paketima.",
+  "apply": "Primeni",
+  "areaBusinessCards": "My Business Cards",
+  "areaBusinessCardsSub": "Tuđe vizit karte",
+  "areaCar": "My Car",
+  "areaCarSub": "Vozila i troškovi",
+  "areaCards": "My Cards",
+  "areaCardsSub": "Popusti i kuponi",
+  "areaDocuments": "My Documents",
+  "areaDocumentsSub": "Centralni arhiv",
+  "areaFamily": "My Family",
+  "areaFamilySub": "Porodični prostor",
+  "areaHobby": "My Hobby",
+  "areaHobbySub": "Oprema i kolekcije",
+  "areaHome": "My Home",
+  "areaHomeSub": "Stvari u domu",
+  "areaLife": "My Life",
+  "areaLifeSub": "Rokovi i obaveze",
+  "askAi": "Pitaj AI",
+  "askAiInstead": "Postavi pitanje AI asistentu",
+  "assignedItems": "Dodeljene stvari",
+  "atTime": "U vreme roka",
+  "attachReceipt": "Skeniraj račun",
+  "back": "Poleđina",
+  "backToSignIn": "Nazad na prijavu",
+  "balance": "Stanje",
+  "barcodeFormat": "Format koda",
+  "barcodeInvalid": "Kod nije ispravan za izabrani format",
+  "barcodeValue": "Vrednost koda",
+  "billingIssueBody": "Naplata nije uspela. Proveri način plaćanja u prodavnici kako ne bi izgubio pristup funkcijama.",
+  "billingNotConfigured": "Kupovina trenutno nije dostupna na ovom uređaju.",
+  "brand": "Proizvođač",
+  "brandModel": "Proizvođač i model",
+  "byCategory": "Po kategoriji",
+  "cancel": "Otkaži",
+  "cardCoupon": "Kupon",
+  "cardDiscount": "Popust",
+  "cardGift": "Poklon kartica",
+  "cardLoyalty": "Lojalnost",
+  "cardMembership": "Članska",
+  "cardName": "Naziv",
+  "cardNameHelp": "Npr. Maxi, DM, apoteka…",
+  "cardNumber": "Broj kartice",
+  "cardOther": "Ostalo",
+  "categories": "Kategorije",
+  "category": "Kategorija",
+  "changePhoto": "Promeni fotografiju",
+  "changePlan": "Promeni paket",
+  "channelLocal": "Obaveštenje na uređaju",
+  "channelLocalHelp": "Radi i bez interneta",
+  "channelPush": "Push obaveštenje",
+  "channelPushHelp": "Stiže i kada je aplikacija zatvorena",
+  "checkThisField": "Proveri ovo polje",
+  "chooseCurrency": "Izaberi valutu",
+  "chooseFromGallery": "Izaberi iz galerije",
+  "choosePlan": "Izaberi paket",
+  "chooseVehicle": "Izaberi vozilo",
+  "clear": "Obriši",
+  "clearFilters": "Ukloni filtere",
+  "close": "Zatvori",
+  "code": "Kod",
+  "color": "Boja",
+  "company": "Firma",
+  "confirmAndSave": "Potvrdi i sačuvaj",
+  "confirmDateHint": "Proveri datum pre čuvanja.",
+  "contactSupport": "Kontaktiraj podršku",
+  "contextSection": "Kontekst",
+  "continueApple": "Nastavi uz Apple",
+  "continueGoogle": "Nastavi uz Google",
+  "continueLabel": "Nastavi",
+  "copied": "Kopirano",
+  "copy": "Kopiraj",
+  "createAccount": "Napravi nalog",
+  "createFamily": "Napravi porodicu",
+  "createInviteLink": "Napravi pozivni link",
+  "createReminder": "Napravi podsetnik",
+  "currency": "Valuta",
+  "currentMileage": "Trenutna kilometraža",
+  "currentMileageKm": "Trenutna kilometraža (km)",
+  "currentPlan": "Trenutni",
+  "date": "Datum",
+  "dateOptions": "Na dokumentu postoji više datuma — izaberi pravi:",
+  "decline": "Odbij",
+  "delete": "Obriši",
+  "deleteAccount": "Obriši nalog",
+  "deleteAccountForever": "Trajno obriši nalog",
+  "deleteCancelStoreFirst": "Pretplata se vodi u App Store / Google Play. Otkaži je tamo kako ti ne bi bila naplaćena posle brisanja naloga.",
+  "deleteCard": "Obriši karticu",
+  "deleteCardBody": "Kartica i njene fotografije biće obrisane.",
+  "deleteCategory": "Obriši kategoriju",
+  "deleteCategoryBody": "Dokumenti ostaju sačuvani, samo gube ovu kategoriju.",
+  "deleteConsequences": "Brišu se svi tvoji dokumenti, fajlovi, predmeti, vozila, kartice, kontakti i podsetnici. Gubiš pristup porodičnom prostoru. Ova radnja se ne može poništiti.",
+  "deleteConsequencesTitle": "Šta se dešava",
+  "deleteContact": "Obriši kontakt",
+  "deleteContactBody": "Vizit karta i fotografije biće obrisane.",
+  "deleteForever": "Obriši trajno",
+  "deleteForeverBody": "Fajl će biti trajno obrisan i ne može se vratiti.",
+  "deleteItem": "Obriši predmet",
+  "deleteItemBody": "Predmet se briše. Povezani dokumenti ostaju u arhivi.",
+  "deleteProfile": "Obriši profil",
+  "deleteProfileBody": "Profil se briše. Dokumenti ostaju, samo gube vezu sa profilom.",
+  "deleteRecord": "Obriši evidenciju",
+  "deleteRecordBody": "Evidencija će biti obrisana. Priloženi računi ostaju u arhivi.",
+  "deleteReminder": "Obriši podsetnik",
+  "deleteReminderBody": "Podsetnik više neće slati obaveštenja.",
+  "deleteVehicle": "Obriši vozilo",
+  "deleteVehicleBody": "Brišu se vozilo i njegove evidencije. Računi ostaju u arhivi.",
+  "deleteWord": "OBRIŠI",
+  "description": "Opis",
+  "details": "Detalji",
+  "disableLock": "Isključi zaključavanje",
+  "discount": "Popust",
+  "discountHelp": "Npr. 10% na kozmetiku, 500 RSD na kupovinu",
+  "discountText": "Opis popusta",
+  "displayName": "Ime ili nadimak",
+  "dissolveBody": "Porodični prostor se zatvara. Tvoji dokumenti ostaju, ali postaju privatni.",
+  "dissolveFamily": "Zatvori porodicu",
+  "dissolveHelp": "Kao vlasnik, porodicu možeš da zatvoriš kada u njoj nema drugih članova.",
+  "docNotAvailable": "Dokument ne postoji ili nemaš pristup.",
+  "documentDate": "Datum dokumenta",
+  "documentSaved": "Dokument je sačuvan",
+  "documentSavedAi": "AI obrađuje dokument. Predlozi će se pojaviti za proveru.",
+  "documents": "Dokumenti",
+  "done": "Gotovo",
+  "downgradePolicy": "Ako pređeš na manji paket, nijedan fajl se ne briše automatski. Ako pređeš limit, dokumenti ostaju dostupni za pregled i izvoz, ali novi ne mogu da se dodaju dok ne oslobodiš prostor ili ne izabereš veći paket.",
+  "dueDate": "Rok",
+  "duplicateTitle": "Moguć duplikat",
+  "edit": "Izmeni",
+  "editCard": "Izmeni karticu",
+  "editContact": "Izmeni kontakt",
+  "editDetails": "Izmeni podatke",
+  "editDocument": "Izmeni dokument",
+  "editItem": "Izmeni predmet",
+  "editProfile": "Izmeni profil",
+  "editRecord": "Izmeni evidenciju",
+  "editReminder": "Izmeni podsetnik",
+  "editVehicle": "Izmeni vozilo",
+  "email": "E-mail",
+  "emailChannelNote": "Obaveštenja e-mailom trenutno nisu uključena.",
+  "emailOptional": "E-mail (opciono)",
+  "emailSent": "E-mail je poslat",
+  "emailsOnePerLine": "E-mail adrese (jedna po redu)",
+  "enableLock": "Uključi zaključavanje",
+  "errAiFailed": "AI trenutno ne može da obradi zahtev. Tvoji podaci su sačuvani — pokušaj ponovo kasnije.",
+  "errAiLimit": "Dostignut je limit AI zahteva. Pokušaj kasnije ili proveri potrošnju.",
+  "errAiNotInPlan": "AI je dostupan u Individual Pro i Family Pro paketima.",
+  "errAlreadyInFamily": "Već si član porodice.",
+  "errCancelled": "Radnja je otkazana.",
+  "errDocumentLimit": "Dostignut je limit broja dokumenata za tvoj paket.",
+  "errEmailInUse": "Nalog sa ovim e-mailom već postoji.",
+  "errEmailNotVerified": "E-mail još nije potvrđen. Proveri poštu.",
+  "errFamilyFull": "Porodica je popunjena za tvoj paket.",
+  "errFamilyHasMembers": "Prvo ukloni ostale članove porodice.",
+  "errFamilyPlan": "Za ovo je potreban Family paket.",
+  "errFileTooLarge": "Fajl je prevelik (najviše 25 MB).",
+  "errGeneric": "Nešto nije u redu. Pokušaj ponovo.",
+  "errInvalidEmail": "Unesi ispravnu e-mail adresu.",
+  "errInvitationEmail": "Pozivnica je poslata na drugu e-mail adresu.",
+  "errInvitationExpired": "Pozivnica je istekla. Zatraži novu.",
+  "errInvitationInvalid": "Pozivnica nije važeća ili je već iskorišćena.",
+  "errNetwork": "Nema internet veze. Promene će se sinhronizovati kad se veza vrati.",
+  "errNotFound": "Traženi sadržaj nije pronađen.",
+  "errPermission": "Nemaš dozvolu za ovu radnju.",
+  "errRecentLogin": "Iz bezbednosnih razloga ponovo se prijavi.",
+  "errSession": "Sesija je istekla. Prijavi se ponovo.",
+  "errStorageLimit": "Nema dovoljno prostora u tvom paketu.",
+  "errTitle": "Ups",
+  "errTooMany": "Previše pokušaja. Sačekaj malo pa pokušaj ponovo.",
+  "errUnavailable": "Servis je trenutno nedostupan. Pokušaj za koji minut.",
+  "errUnsupportedFile": "Ovaj tip fajla nije podržan. Koristi PDF, JPG, PNG ili HEIC.",
+  "errUserNotFound": "Nalog sa ovim e-mailom ne postoji.",
+  "errWeakPassword": "Lozinka je preslaba.",
+  "errWrongPassword": "Pogrešan e-mail ili lozinka.",
+  "expenses": "Troškovi",
+  "expired": "Isteklo",
+  "expiryDate": "Važi do",
+  "exportAdvancedIncluded": "Tvoj paket uključuje i CSV tabele (dokumenti, predmeti, troškovi vozila).",
+  "exportBasicOnly": "Izvoz sadrži JSON sa svim podacima i originalne fajlove. CSV tabele su deo Pro paketa.",
+  "exportBody": "Napravićemo ZIP arhivu sa svim tvojim dokumentima, fotografijama, metapodacima, predmetima, vozilima, podsetnicima i vezama između njih.",
+  "exportData": "Izvezi podatke",
+  "exportFamilyNote": "Izvoz sadrži samo zapise čiji si ti vlasnik. Svaki član porodice izvozi svoje podatke.",
+  "exportFirst": "Prvo izvezi podatke",
+  "exportWait": "Ovo može da potraje nekoliko minuta ako imaš mnogo fajlova.",
+  "familyDeadlines": "Porodični rokovi",
+  "familyIntro": "Porodični prostor omogućava zajedničke dokumente, profile članova i zajedničke rokove. Svaki dokument i dalje ima svoju privatnost.",
+  "familyInvitation": "Pozivnica za porodicu",
+  "familyName": "Naziv porodice",
+  "familyPermissions": "Uloge i dozvole",
+  "familyPlanLapsed": "Porodični paket nije aktivan. Postojeći podaci ostaju dostupni, ali nove pozivnice nisu moguće.",
+  "familyPlanOnly": "Dostupno u Family paketima",
+  "familyProfiles": "Profili članova domaćinstva",
+  "familyProfilesHelp": "Za članove bez sopstvenog naloga, npr. decu.",
+  "familySettings": "Podešavanja porodice",
+  "faq1a": "Podrazumevano samo ti. Dokument postaje vidljiv članovima porodice tek kada mu promeniš privatnost u 'Deljeno' ili 'Porodično'.",
+  "faq1q": "Ko može da vidi moje dokumente?",
+  "faq2a": "Ništa se ne briše. Sve ostaje dostupno za pregled i izvoz, a nove fajlove možeš da dodaš kada oslobodiš prostor ili izabereš veći paket.",
+  "faq2q": "Šta se dešava ako pređem limit prostora?",
+  "faq3a": "Može. Zato su AI podaci predlozi koje potvrđuješ, a odgovori uvek navode izvore.",
+  "faq3q": "Da li AI može da pogreši?",
+  "faq4a": "Pretplatom upravljaš u App Store ili Google Play podešavanjima. Pristup ostaje do kraja plaćenog perioda.",
+  "faq4q": "Kako otkazujem pretplatu?",
+  "faq5a": "Ne. PIN i biometrija dodatno štite pristup ekranu. Fajlovi su zaštićeni serverskim pravilima pristupa i šifrovani u prenosu i skladištu kod Google Cloud-a.",
+  "faq5q": "Da li je PIN za Vault enkripcija?",
+  "favorites": "Omiljeno",
+  "favoritesOnly": "Samo omiljeni",
+  "featureAds": "Sa oglasima",
+  "featureAi": "AI ekstrakcija, kategorizacija i pitanja",
+  "featureNoAds": "Bez oglasa",
+  "featureNoAi": "Bez AI funkcija",
+  "featureReminders": "Podsetnici i obaveštenja",
+  "featureScan": "Skeniranje i otpremanje",
+  "fileInfo": "Fajl",
+  "fileType": "Tip fajla",
+  "filters": "Filteri",
+  "forgotPassword": "Zaboravljena lozinka?",
+  "free": "Besplatno",
+  "front": "Prednja strana",
+  "fuelType": "Gorivo / pogon",
+  "fullName": "Ime i prezime",
+  "getStarted": "Počni",
+  "goHome": "Na početnu",
+  "gridView": "Prikaz u mreži",
+  "haveAccount": "Već imam nalog",
+  "haveInvitationHint": "Imaš pozivnicu? Otvori link iz poruke i prihvati je.",
+  "help": "Pomoć i podrška",
+  "hidePassword": "Sakrij lozinku",
+  "howWeProtect": "Kako štitimo tvoje podatke",
+  "iVerified": "Potvrdio sam e-mail",
+  "ignoreSuggestions": "Zanemari predloge",
+  "image": "Slika",
+  "importantReminders": "Važni podsetnici",
+  "injectionWarning": "Dokument sadrži tekst koji liči na uputstva za AI. Zanemaren je, ali proveri predloge pažljivo.",
+  "invalidAmount": "Neispravan iznos",
+  "invalidValue": "Neispravna vrednost",
+  "invalidVin": "VIN ima 17 znakova (bez I, O, Q)",
+  "invitationDeclined": "Pozivnica je odbijena",
+  "invite": "Pozovi",
+  "inviteEmailHelp": "Ako uneseš e-mail, pozivnicu može da prihvati samo osoba sa tom potvrđenom adresom.",
+  "inviteExpiresNote": "Link važi 7 dana i može se iskoristiti samo jednom.",
+  "inviteHelp": "Napravi bezbedan pozivni link i pošalji ga članu porodice. Član ne dobija automatski pristup tvojim dokumentima.",
+  "inviteLink": "Pozivni link",
+  "inviteMember": "Pozovi člana",
+  "inviteReady": "Pozivnica je spremna",
+  "issuer": "Izdavalac / prodavnica",
+  "items": "Predmeti",
+  "jobTitle": "Pozicija",
+  "joinedFamily": "Pridružio si se porodici",
+  "kindAnniversary": "Godišnjica",
+  "kindContract": "Ugovor",
+  "kindCustom": "Ostalo",
+  "kindDocument": "Dokument",
+  "kindInsurance": "Osiguranje",
+  "kindRegistration": "Registracija",
+  "kindService": "Servis",
+  "kindSubscription": "Pretplata / članarina",
+  "kindWarranty": "Garancija",
+  "langEnglish": "English",
+  "langSerbian": "Srpski",
+  "language": "Jezik",
+  "largestFiles": "Najveći fajlovi",
+  "last30Days": "Poslednjih 30 dana",
+  "lastMileage": "Poslednja kilometraža",
+  "lastYear": "Prošle godine",
+  "later": "Kasnije",
+  "leaveFamily": "Napusti porodicu",
+  "leaveFamilyBody": "Gubiš pristup porodičnim dokumentima. Tvoji dokumenti ostaju tvoji i postaju privatni.",
+  "leaveFamilyTitle": "Napuštaš porodicu?",
+  "legal": "Pravne informacije",
+  "legalSummary": "MyWorld+ čuva tvoje podatke samo da bi ti pružio uslugu. Ne prodajemo podatke, ne koristimo sadržaj dokumenata za oglase i ne treniramo modele na tvojim dokumentima. U svakom trenutku možeš da izvezeš ili obrišeš podatke.",
+  "lifeIntro": "Pretplate, polise, rokovi ugovora, članarine, godišnjice i ostali važni datumi.",
+  "limitReachedBody": "Ništa nije obrisano. Sve tvoje stavke su dostupne za pregled i izvoz. Da bi dodao nove, oslobodi prostor (isprazni korpu, obriši nepotrebno) ili izaberi veći paket.",
+  "limitReachedTitle": "Dostignut je limit paketa",
+  "linkedDocument": "Povezani dokument",
+  "linkedDocumentOptional": "Povezani dokument (opciono)",
+  "linkedItem": "Povezana stavka",
+  "links": "Veze",
+  "linksHelp": "Poveži dokument sa predmetima, vozilima ili članovima. Fajl se ne kopira.",
+  "listView": "Prikaz u listi",
+  "loading": "Učitavanje…",
+  "location": "Lokacija u domu",
+  "locationHelp": "Npr. kuhinja, podrum",
+  "lockEnabled": "Zaključavanje je uključeno",
+  "lockNow": "Zaključaj sada",
+  "lockedFeature": "Zaključano",
+  "maintenanceHistory": "Popravke i održavanje",
+  "make": "Marka",
+  "manage": "Upravljaj",
+  "manageInStore": "Upravljaj u prodavnici",
+  "manageSubscription": "Pretplata",
+  "markDone": "Označi kao završeno",
+  "markDoneNext": "Završeno — pomeri na sledeći rok",
+  "markUsed": "Označi kao iskorišćen",
+  "member": "Član",
+  "memberVisibleNote": "Vidiš samo ono što je ovaj član podelio sa tobom ili sa porodicom.",
+  "members": "Članovi",
+  "metAt": "Datum upoznavanja",
+  "metWhere": "Gde ste se upoznali",
+  "mileage": "Kilometraža",
+  "mileageHistory": "Istorija kilometraže",
+  "mileageKm": "Kilometraža (km)",
+  "minor": "Maloletno",
+  "minorHelp": "Profil deteta nije nalog i ne može da se prijavi.",
+  "model": "Model",
+  "more": "Još",
+  "moveToTrash": "Premesti u korpu",
+  "moveToTrashBody": "Dokument možeš da vratiš iz korpe u narednih 30 dana.",
+  "movedToTrash": "Premešteno u korpu",
+  "multiCurrencyNote": "Iznosi u različitim valutama se ne sabiraju zajedno.",
+  "myAreas": "Moje oblasti",
+  "name": "Naziv",
+  "nameOrCompanyRequired": "Unesi ime ili firmu",
+  "navAdd": "Dodaj",
+  "navHome": "Početna",
+  "navVault": "Vault",
+  "navWorld": "My World",
+  "next": "Dalje",
+  "next6Months": "Narednih 6 meseci",
+  "nextDueDate": "Sledeći rok",
+  "nextDueHelp": "Unesi samo ako znaš rok (npr. sa računa ili po preporuci servisa).",
+  "nextDueMileage": "Sledeći servis na km",
+  "nextDueSection": "Sledeći rok",
+  "noAccount": "Nemam nalog — registruj se",
+  "noAssignedItems": "Nema dodeljenih stvari.",
+  "noCards": "Još nema kartica",
+  "noCardsHint": "Sačuvaj kartice lojalnosti, popuste i kupone da ih uvek imaš uz sebe.",
+  "noContacts": "Još nema vizit karata",
+  "noContactsHint": "Fotografiši vizit kartu i sačuvaj kontakt za par sekundi.",
+  "noDeadlines": "Nema rokova u narednih 6 meseci",
+  "noDocuments": "Još nema dokumenata",
+  "noDocumentsCta": "Dodaj prvi dokument — skeniraj račun ili garanciju.",
+  "noDocumentsHint": "Skeniraj ili otpremi dokument da ga sačuvaš ovde.",
+  "noExpenses": "Još nema troškova",
+  "noFamilyDeadlines": "Nema zajedničkih rokova.",
+  "noInventedIntervals": "MyWorld+ ne pretpostavlja servisne intervale — prikazuje samo rokove koje si uneo.",
+  "noItems": "Još nema predmeta",
+  "noItemsHint": "Dodaj uređaj ili predmet i poveži ga sa računom i garancijom.",
+  "noLinkTargets": "Nema predmeta, vozila ni profila za povezivanje.",
+  "noLinkedDocs": "Nema povezanih dokumenata.",
+  "noLinks": "Dokument nije povezan ni sa čim.",
+  "noMaintenance": "Nema zapisa o održavanju",
+  "noMaintenanceHint": "Dodaj račun za popravku ili servis i poveži ga sa predmetom.",
+  "noMileage": "Nema unete kilometraže",
+  "noNotifications": "Nema novih obaveštenja",
+  "noRecordYet": "Još nema evidencije.",
+  "noRecords": "Još nema evidencija",
+  "noReminders": "Nema podsetnika",
+  "noRemindersCta": "Dodaj prvi podsetnik — registracija, garancija, ugovor…",
+  "noRemindersHint": "Podsetnici te obaveštavaju o važnim rokovima na vreme.",
+  "noResults": "Nema rezultata",
+  "noResultsFiltered": "Nijedan dokument ne odgovara filterima.",
+  "noResultsHint": "Probaj drugi pojam, ukloni filtere ili dodaj dokument.",
+  "noSharedDocs": "Nema deljenih dokumenata.",
+  "noSharedDocsHint": "Promeni privatnost dokumenta u 'Porodično' ili 'Deljeno' da bi ga drugi videli.",
+  "noSuggestions": "Nema AI predloga",
+  "noSuggestionsBody": "Za ovaj dokument još nema predloga.",
+  "noVehicles": "Još nema vozila",
+  "noVehiclesHint": "Dodaj vozilo i vodi servisnu istoriju, troškove i rokove.",
+  "noWarrantyDate": "Datum isteka garancije nije unet",
+  "noWarrantyFound": "Na dokumentu nije pronađen podatak o garanciji. Ne pretpostavljamo trajanje garancije.",
+  "none": "Bez",
+  "notAvailable": "Nije dostupno ili nemaš pristup.",
+  "notSet": "nije postavljeno",
+  "notes": "Napomene",
+  "notificationChannels": "Kanali obaveštenja",
+  "notificationGenericBody": "Imaš podsetnik koji zahteva pažnju.",
+  "notificationTitle": "MyWorld+ podsetnik",
+  "notifications": "Obaveštenja",
+  "notificationsAllowed": "Obaveštenja su dozvoljena",
+  "notificationsBlocked": "Obaveštenja nisu dozvoljena",
+  "notifyBefore": "Obavesti me",
+  "offlineBanner": "Nema veze — izmene će se sinhronizovati kasnije",
+  "onboarding1Body": "Dokumenti, računi, garancije, stvari, vozila i porodica — organizovano.",
+  "onboarding1Title": "Sve tvoje važne stvari, na jednom mestu.",
+  "onboarding2Body": "Fotografiši kamerom, a mi pravimo uredan PDF.",
+  "onboarding2Title": "Sačuvaj dokumente, račune i garancije za nekoliko sekundi.",
+  "onboarding3Body": "Brza pretraga i podsetnici za važne rokove.",
+  "onboarding3Title": "Pronađi ono što ti treba, baš kada ti zatreba.",
+  "open": "Otvori",
+  "openDocument": "Otvori dokument",
+  "openPreview": "Otvori pregled",
+  "openSourceLicenses": "Licence otvorenog koda",
+  "openingCamera": "Otvaram kameru…",
+  "optionalDetails": "Dodatni podaci (opciono)",
+  "orContinueWith": "ili",
+  "overdue": "Isteklo",
+  "ownerCannotLeave": "Vlasnik ne može da napusti porodicu dok ima drugih članova. Prvo ih ukloni.",
+  "pageNotFound": "Ova stranica ne postoji.",
+  "password": "Lozinka",
+  "passwordHelp": "Najmanje 8 znakova, slova i brojevi",
+  "passwordTooShort": "Lozinka mora imati najmanje 8 znakova",
+  "passwordWeak": "Lozinka mora sadržati slova i brojeve",
+  "pendingInvites": "Aktivne pozivnice",
+  "period": "Period",
+  "permissionDeniedTitle": "Nema pristupa",
+  "permissionsExplainer": "Uloge određuju ko upravlja porodicom (pozivanje, profili). Uloga ne daje pristup tuđim dokumentima — to određuje privatnost svakog dokumenta.",
+  "phonesOnePerLine": "Telefoni (jedan po redu)",
+  "photos": "Fotografije",
+  "pin": "PIN",
+  "pinHelp": "4 do 8 cifara",
+  "pinMismatch": "PIN-ovi se ne poklapaju",
+  "pinNew": "Novi PIN",
+  "pinRepeat": "Ponovi PIN",
+  "planFamilyBase": "Family Base",
+  "planFamilyPro": "Family Pro",
+  "planFromFamily": "Paket dolazi iz porodice",
+  "planIndividualBase": "Individual Base",
+  "planIndividualPro": "Individual Pro",
+  "plansSubtitle": "Izaberi paket koji ti odgovara. Možeš da ga promeniš ili otkažeš bilo kada.",
+  "plansTitle": "Paketi",
+  "price": "Cena",
+  "privacy": "Ko vidi",
+  "privacyBullets": "• Svi fajlovi su privatni i dostupni samo kroz proveru pristupa na serveru.\n• Porodični članovi vide samo ono što izričito podeliš.\n• Sadržaj dokumenata se ne šalje u analitiku, logove ni reklamne mreže.\n• Brisanje naloga zaista briše podatke na serveru.",
+  "privacyFamily": "Porodično",
+  "privacyFamilyHelp": "Vide svi aktivni članovi tvoje porodice.",
+  "privacyNoFamilyHelp": "Deljenje je dostupno kada si član porodice.",
+  "privacyPolicy": "Politika privatnosti",
+  "privacyPrivate": "Privatno",
+  "privacyPrivateHelp": "Vidiš samo ti.",
+  "privacySettings": "Privatnost",
+  "privacyShared": "Izabrani",
+  "privacySharedHelp": "Vide samo članovi koje izabereš.",
+  "processingStatus": "Status obrade",
+  "profile": "Profil",
+  "profileSetupBody": "Još samo par podataka. Ništa osetljivo ne tražimo.",
+  "profileSetupTitle": "Tvoj profil",
+  "purchaseDate": "Datum kupovine",
+  "purchaseDetails": "Kupovina",
+  "purchaseProcessed": "Kupovina je obrađena. Paket se ažurira…",
+  "reactivate": "Ponovo aktiviraj",
+  "readCardWithAi": "Pročitaj karticu pomoću AI",
+  "recFuel": "Gorivo",
+  "recInspection": "Tehnički pregled",
+  "recInsurance": "Osiguranje",
+  "recOil": "Zamena ulja",
+  "recOther": "Ostalo",
+  "recParking": "Parking",
+  "recParts": "Delovi",
+  "recRegistration": "Registracija",
+  "recRepair": "Popravka",
+  "recService": "Redovan servis",
+  "recTires": "Gume",
+  "recTolls": "Putarine",
+  "receipts": "Računi",
+  "receiptsAndWarranties": "Računi i garancije",
+  "recentRecords": "Poslednje evidencije",
+  "recentlyAdded": "Nedavno dodato",
+  "recordType": "Vrsta evidencije",
+  "refreshStatus": "Osveži status pretplate",
+  "registrationInsurance": "Registracija i osiguranje",
+  "registrationNumber": "Registarska oznaka",
+  "relationshipOptional": "Odnos (opciono)",
+  "remindBeforeExpiry": "Podseti me pre isteka",
+  "reminder": "Podsetnik",
+  "reminderSaved": "Podsetnik je sačuvan",
+  "reminderSettings": "Podešavanja podsetnika",
+  "reminderType": "Vrsta",
+  "reminders": "Podsetnici",
+  "removeAds": "Ukloni oglase",
+  "removeFavorite": "Ukloni iz omiljenih",
+  "removeMember": "Ukloni člana",
+  "removeMemberBody": "Član odmah gubi pristup porodičnim i deljenim dokumentima. Njegovi dokumenti ostaju njegovi.",
+  "renewsOn": "Obnavlja se",
+  "repeat": "Ponavljanje",
+  "repeatDaily": "Svakog dana",
+  "repeatMonthly": "Svakog meseca",
+  "repeatNone": "Ne ponavlja se",
+  "repeatWeekly": "Svake nedelje",
+  "repeatYearly": "Svake godine",
+  "required": "Obavezno polje",
+  "resendEmail": "Pošalji ponovo",
+  "resetPassword": "Resetovanje lozinke",
+  "resetPasswordBody": "Unesi e-mail i poslaćemo ti link za novu lozinku.",
+  "resetSentBody": "Ako nalog postoji, link je poslat. Proveri i spam folder.",
+  "resetSentTitle": "Proveri e-mail",
+  "restore": "Vrati",
+  "restoreDone": "Kupovine su proverene",
+  "restorePurchases": "Vrati kupovine",
+  "restored": "Vraćeno",
+  "retake": "Fotografiši ponovo",
+  "retry": "Pokušaj ponovo",
+  "reviewSuggestions": "Proveri AI predloge",
+  "revoke": "Opozovi",
+  "roleAdmin": "Administrator",
+  "roleMember": "Član",
+  "roleOwner": "Vlasnik",
+  "rotate": "Rotiraj",
+  "save": "Sačuvaj",
+  "saveAnyway": "Ipak sačuvaj",
+  "saveDocumentTitle": "Sačuvaj dokument",
+  "saveToVault": "Sačuvaj u Vault",
+  "saveToVaultHelp": "Za posebno važne lične dokumente. Ne koristi se u AI pitanjima.",
+  "saved": "Sačuvano",
+  "scanBarcode": "Skeniraj barkod / QR",
+  "scanBarcodeHelp": "Usmeri kameru ka barkodu ili QR kodu",
+  "scanReviewHelp": "Proveri strane. Možeš da ih rotiraš, ponoviš, obrišeš ili prevučeš da promeniš redosled.",
+  "search": "Pretraga",
+  "searchCards": "Pretraži kartice",
+  "searchContacts": "Pretraži kontakte",
+  "searchHint": "Šta tražiš danas?",
+  "searchItems": "Pretraži predmete",
+  "searchStartBody": "Pretraži po nazivu, kategoriji, prodavcu, osobi, uređaju, iznosu ili tagu.",
+  "searchStartTitle": "Počni da kucaš",
+  "searchVault": "Pretraži Vault",
+  "seeAll": "Sve",
+  "seePlans": "Pogledaj pakete",
+  "send": "Pošalji",
+  "sendLink": "Pošalji link",
+  "serialNumber": "Serijski broj",
+  "serviceHistory": "Servisna istorija",
+  "serviceOrVendor": "Servis ili prodavac",
+  "sessionExpiredBody": "Iz bezbednosnih razloga potrebno je da se ponovo prijaviš.",
+  "sessionExpiredTitle": "Sesija je istekla",
+  "setPin": "Postavi PIN za Vault",
+  "settings": "Podešavanja",
+  "share": "Podeli",
+  "shareFile": "Izvezi fajl",
+  "sharedByMe": "Ja delim",
+  "sharedDocuments": "Deljeni dokumenti",
+  "sharedWithMe": "Deljeno sa mnom",
+  "sharing": "Deljenje i privatnost",
+  "sharingNeedsFamily": "Dokumente možeš da deliš sa članovima porodice u Family paketima.",
+  "sharingServerNote": "Pristup se proverava na serveru za svaki dokument i fajl. Kada nekome ukloniš pristup, on ga odmah gubi.",
+  "sharingUpdated": "Deljenje je ažurirano",
+  "showCompleted": "Prikaži završene",
+  "showDetailsHelp": "Isključeno: na zaključanom ekranu piše samo da imaš podsetnik. Uključeno: prikazuje se naziv podsetnika.",
+  "showDetailsInNotifications": "Prikaži naziv u obaveštenju",
+  "showPassword": "Prikaži lozinku",
+  "showUsedExpired": "Prikaži iskorišćene i istekle",
+  "signIn": "Prijavi se",
+  "signInTitle": "Dobro došao nazad",
+  "signOut": "Odjavi se",
+  "signUpTitle": "Napravi svoj MyWorld+",
+  "skip": "Preskoči",
+  "snoozeWeek": "Odloži za nedelju dana",
+  "soon": "Uskoro",
+  "sortAmountAsc": "Najmanji iznos",
+  "sortAmountDesc": "Najveći iznos",
+  "sortBy": "Sortiranje",
+  "sortExpiry": "Datum isteka",
+  "sortNameAsc": "Naziv A–Z",
+  "sortNameDesc": "Naziv Z–A",
+  "sortNewest": "Najnovije",
+  "sortOldest": "Najstarije",
+  "source": "Izvor",
+  "sources": "Izvori",
+  "startExport": "Napravi izvoz",
+  "status": "Status",
+  "statusActive": "Aktivno",
+  "statusCancelled": "Otkazano",
+  "statusDiscarded": "Odbačeno",
+  "statusDone": "Završeno",
+  "statusDraft": "Nacrt",
+  "statusFailed": "Neuspešno",
+  "statusInRepair": "Na popravci",
+  "statusNeedsReview": "Za proveru",
+  "statusProcessing": "Obrada",
+  "statusReady": "Spremno",
+  "statusRefreshed": "Status je osvežen",
+  "statusSnoozed": "Odloženo",
+  "statusSold": "Prodato",
+  "statusUploaded": "Otpremljeno",
+  "statusUploading": "Otpremanje",
+  "storage": "Skladište",
+  "storageAlmostFull": "Skladište je skoro puno",
+  "subActive": "Aktivna",
+  "subBillingIssue": "Problem sa naplatom",
+  "subCancelled": "Otkazana — važi do kraja perioda",
+  "subExpired": "Istekla",
+  "subNone": "Besplatni paket",
+  "subRefunded": "Refundirana",
+  "subscriptionTerms": "Pretplata se automatski obnavlja svakog meseca dok je ne otkažeš u podešavanjima App Store-a ili Google Play-a. Naplata ide preko tvog naloga u prodavnici.",
+  "summary": "Sažetak",
+  "supportPrivacyNote": "Nikada ne šalji lozinke niti sadržaj dokumenata podršci.",
+  "tagline": "Tvoj život. Na jednom mestu.",
+  "tags": "Tagovi",
+  "takePhoto": "Fotografiši",
+  "termsOfUse": "Uslovi korišćenja",
+  "thisYear": "Ove godine",
+  "timezone": "Vremenska zona",
+  "title": "Naziv",
+  "today": "Danas",
+  "tomorrow": "Sutra",
+  "totalInvested": "Ukupno uloženo",
+  "totalValue": "Ukupna vrednost",
+  "trash": "Korpa",
+  "trashEmpty": "Korpa je prazna",
+  "trashRetention": "Dokumenti iz korpe trajno se brišu posle 30 dana.",
+  "tryAi": "Pitaj AI",
+  "typeDeleteToConfirm": "Upiši OBRIŠI za potvrdu",
+  "unlock": "Otključaj",
+  "unlockVaultReason": "Otključaj Vault",
+  "upcomingDeadlines": "Predstojeći rokovi",
+  "upgradeAiBody": "AI čita račune, predlaže kategorije i podsetnike i odgovara na pitanja o tvojim podacima — uz izvore.",
+  "upgradeAiTitle": "AI pomoć je u Pro paketima",
+  "upgradeDocumentsBody": "Dostigao si broj dokumenata za besplatni paket. Ništa se ne briše — izaberi veći paket za više prostora.",
+  "upgradeDocumentsTitle": "Limit dokumenata",
+  "upgradeExportBody": "CSV izvoz je deo Pro paketa.",
+  "upgradeExportTitle": "Napredni izvoz",
+  "upgradeFamilyBody": "Porodični prostor, pozivnice i deljenje dokumenata dostupni su u Family Base i Family Pro paketima.",
+  "upgradeFamilyTitle": "Family paket",
+  "upgradeFiltersBody": "Filteri po statusu obrade i napredna pretraga dostupni su u plaćenim paketima.",
+  "upgradeFiltersTitle": "Napredni filteri",
+  "upgradeStorageBody": "Ništa nije obrisano. Za više prostora izaberi veći paket ili oslobodi prostor.",
+  "upgradeStorageTitle": "Prostor je pun",
+  "upgradeVehiclesBody": "Tvoj paket dozvoljava ograničen broj vozila. Veći paket omogućava više.",
+  "upgradeVehiclesTitle": "Limit vozila",
+  "uploadErrorTitle": "Otpremanje nije uspelo",
+  "uploadFailedHint": "Fajl nije otpremljen ili nije prošao proveru. Otpremi ga ponovo.",
+  "uploadKeepOpen": "Ne zatvaraj aplikaciju dok se otpremanje ne završi.",
+  "useBiometrics": "Koristi biometriju",
+  "useRegularSearch": "Koristi običnu pretragu",
+  "validFrom": "Važi od",
+  "vaultEmpty": "Vault je prazan",
+  "vaultEmptyBody": "Ovde čuvaj lične dokumente, ugovore, polise i potvrde.",
+  "vaultLockDisclaimer": "PIN i biometrija dodatno štite otvaranje Vault-a na ovom uređaju. To nije enkripcija: tvoji fajlovi su zaštićeni proverom pristupa na serveru, bez obzira na PIN.",
+  "vaultLocked": "Vault je zaključan",
+  "vaultLockedBody": "Unesi PIN ili koristi biometriju.",
+  "vaultSettings": "Podešavanja Vault-a",
+  "vaultSubtitle": "Privatna i posebno važna dokumenta. Ovde nema oglasa.",
+  "vendor": "Prodavac",
+  "verifyEmailTitle": "Potvrdi e-mail",
+  "warrantiesExpiring": "Garancije ističu",
+  "warranty": "Garancija",
+  "warrantyConfirm": "Potvrđujem datum garancije",
+  "warrantyConfirmHelp": "Proveri na garantnom listu. Garancija se nikada ne postavlja bez tvoje potvrde.",
+  "warrantyFieldHelp": "Unesi samo ako je navedeno na garantnom listu",
+  "warrantySuggestion": "Predlog sa dokumenta",
+  "warrantyUntil": "Garancija do",
+  "warrantyUserEnteredNote": "Datum garancije je onaj koji si uneo ili potvrdio.",
+  "website": "Sajt",
+  "welcome": "Dobro došli",
+  "withReminder": "Sa podsetnikom",
+  "withWarranty": "Sa garancijom",
+  "worldSubtitle": "Sve oblasti tvog života",
+  "year": "Godina proizvodnje",
+  "you": "ti",
+  "addDocumentFor": "Dokument za {name}",
+  "@addDocumentFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "cardExpiresTitle": "Ističe kartica: {name}",
+  "@cardExpiresTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "cardsCount": "{count, plural, =0{Nema kartica} one{{count} kartica} few{{count} kartice} other{{count} kartica}}",
+  "@cardsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "cardsExpiringSoon": "{count, plural, one{{count} kartica ističe u naredne 2 nedelje} few{{count} kartice ističu u naredne 2 nedelje} other{{count} kartica ističe u naredne 2 nedelje}}",
+  "@cardsExpiringSoon": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "contactsCount": "{count, plural, =0{Nema kontakata} one{{count} kontakt} few{{count} kontakta} other{{count} kontakata}}",
+  "@contactsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count, plural, one{pre {count} dan} few{pre {count} dana} other{pre {count} dana}}",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysBefore": "{count, plural, one{{count} dan ranije} few{{count} dana ranije} other{{count} dana ranije}}",
+  "@daysBefore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "documentExpiresTitle": "Ističe: {title}",
+  "@documentExpiresTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "documentsCount": "{count, plural, =0{Nema dokumenata} one{{count} dokument} few{{count} dokumenta} other{{count} dokumenata}}",
+  "@documentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "documentsUsed": "Dokumenata: {used} od {limit}",
+  "@documentsUsed": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "duplicateBody": "Isti fajl je već sačuvan kao „{title}”. Da li želiš da ga sačuvaš ponovo?",
+  "@duplicateBody": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "expiresOn": "Ističe {date}",
+  "@expiresOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "featureDocuments": "Do {count} dokumenata",
+  "@featureDocuments": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "featureMembers": "Do {count} članova porodice",
+  "@featureMembers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "featureStorage": "{size} prostora",
+  "@featureStorage": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "helloName": "Zdravo, {name}",
+  "@helloName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursBefore": "{count, plural, one{{count} sat ranije} few{{count} sata ranije} other{{count} sati ranije}}",
+  "@hoursBefore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "inDays": "{count, plural, one{za {count} dan} few{za {count} dana} other{za {count} dana}}",
+  "@inDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "invitationBody": "{name} te poziva u porodični prostor. Prihvatanjem ne dobijaš automatski pristup svim dokumentima — vidiš samo ono što ti drugi podele.",
+  "@invitationBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteShareText": "Pozivam te u našu porodicu na MyWorld+: {link}",
+  "@inviteShareText": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "invitedTo": "Poziv u porodicu „{name}”",
+  "@invitedTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "itemsCount": "{count, plural, =0{Nema predmeta} one{{count} predmet} few{{count} predmeta} other{{count} predmeta}}",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "joinedOn": "Član od {date}",
+  "@joinedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "last12Months": "Poslednjih 12 meseci {currency}",
+  "@last12Months": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "lastOn": "Poslednje: {date}",
+  "@lastOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "membersCount": "{count, plural, one{{count} član} few{{count} člana} other{{count} članova}}",
+  "@membersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesBefore": "{count} min ranije",
+  "@minutesBefore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nextDue": "Sledeće: {date}",
+  "@nextDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "offerReminderBody": "Želiš li podsetnik za {date}?",
+  "@offerReminderBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "pageN": "Strana {n}",
+  "@pageN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pagesCount": "{count, plural, one{{count} strana} few{{count} strane} other{{count} strana}}",
+  "@pagesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pricePerMonth": "{price} € / mesečno",
+  "@pricePerMonth": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "purchasedOn": "Kupljeno {date}",
+  "@purchasedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "remindersCount": "{count, plural, =0{Nema podsetnika} one{{count} podsetnik} few{{count} podsetnika} other{{count} podsetnika}}",
+  "@remindersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "removeMemberTitle": "Ukloniti člana {name}?",
+  "@removeMemberTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewIntro": "AI je pročitao dokument (pouzdanost {percent}%). Proveri i ispravi podatke pre čuvanja.",
+  "@reviewIntro": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewNeededFor": "Proveri predloge: {title}",
+  "@reviewNeededFor": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "scanReviewTitle": "{count, plural, one{{count} strana} few{{count} strane} other{{count} strana}}",
+  "@scanReviewTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sharedBy": "Delio: {name}",
+  "@sharedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storageUsed": "Iskorišćeno {used} od {total}",
+  "@storageUsed": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadProgress": "Otpremanje… {percent}%",
+  "@uploadProgress": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "validUntil": "Važi do {date}",
+  "@validUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "vehiclesCount": "{count, plural, =0{Nema vozila} one{{count} vozilo} few{{count} vozila} other{{count} vozila}}",
+  "@vehiclesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "verifyEmailBody": "Poslali smo link na {email}. Otvori ga da potvrdiš nalog.",
+  "@verifyEmailBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "warrantyActiveUntil": "Garancija važi do {date}",
+  "@warrantyActiveUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "warrantyDaysLeft": "{count, plural, one{Još {count} dan garancije} few{Još {count} dana garancije} other{Još {count} dana garancije}}",
+  "@warrantyDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "warrantyExpiredOn": "Garancija je istekla {date}",
+  "@warrantyExpiredOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "warrantyExpiresTitle": "Ističe garancija: {name}",
+  "@warrantyExpiresTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "warrantyPrintedMonths": "Na dokumentu: {months} meseci garancije",
+  "@warrantyPrintedMonths": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "warrantyPrintedUntil": "Na dokumentu: do {date}",
+  "@warrantyPrintedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "warrantyUntilShort": "Garancija do {date}",
+  "@warrantyUntilShort": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "willBeSavedIn": "Biće sačuvano u: {destination}",
+  "@willBeSavedIn": {
+    "placeholders": {
+      "destination": {
+        "type": "String"
+      }
+    }
+  },
+  "wrongPin": "{count, plural, one{Pogrešan PIN. Ostao je još {count} pokušaj.} few{Pogrešan PIN. Ostala su još {count} pokušaja.} other{Pogrešan PIN. Ostalo je još {count} pokušaja.}}",
+  "@wrongPin": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

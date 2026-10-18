@@ -26,11 +26,12 @@ async function notify(uid: string, r: FirebaseFirestore.DocumentData, reminderId
   const showDetails = user.get('notificationPreview') === 'detailed';
   const t = TEXT[lang];
   const devices = await db.collection('users').doc(uid).collection('devices').get();
-  const tokens = devices.docs.map((d) => d.get('token')).filter(Boolean);
-  if (tokens.length === 0) return;
+  // Firebase Installation IDs (direct-send targets registered by the app).
+  const fids = devices.docs.map((d) => d.get('fid')).filter(Boolean);
+  if (fids.length === 0) return;
 
   const res = await messaging().sendEachForMulticast({
-    tokens,
+    fids,
     notification: { title: t.title, body: showDetails ? String(r.title).slice(0, 120) : t.generic },
     data: { type: 'reminder', reminderId },
     android: { priority: 'high', notification: { channelId: 'reminders' } },
@@ -39,7 +40,7 @@ async function notify(uid: string, r: FirebaseFirestore.DocumentData, reminderId
   // Clean up dead tokens.
   await Promise.all(res.responses.map((x, i) => {
     const code = x.error?.code ?? '';
-    if (code.includes('registration-token-not-registered') || code.includes('invalid-registration-token')) {
+    if (code.includes('not-registered') || code.includes('invalid-registration') || code.includes('invalid-argument')) {
       return devices.docs[i].ref.delete();
     }
     return null;

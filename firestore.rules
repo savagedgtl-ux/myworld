@@ -104,8 +104,8 @@ service cloud.firestore {
       match /devices/{deviceId} {
         allow read, delete: if isUser(userId);
         allow create, update: if isUser(userId)
-          && request.resource.data.keys().hasOnly(['token', 'platform', 'locale', 'updatedAt'])
-          && request.resource.data.token is string;
+          && request.resource.data.keys().hasOnly(['fid', 'platform', 'locale', 'updatedAt'])
+          && request.resource.data.fid is string && request.resource.data.fid.size() <= 256;
       }
     }
 
