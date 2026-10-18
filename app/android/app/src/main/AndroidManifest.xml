@@ -42,6 +42,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="myworldplus.app" android:pathPrefix="/invite"/>
+                <data android:scheme="https" android:host="myworld-b0330.web.app" android:pathPrefix="/invite"/>
             </intent-filter>
         </activity>
         <meta-data

@@ -43,7 +43,7 @@ class _MyWorldAppState extends ConsumerState<MyWorldApp> {
   Future<void> _initLinks() async {
     final appLinks = AppLinks();
     void handle(Uri uri) {
-      if (uri.host == AppConfig.inviteHost && uri.path.startsWith('/invite')) {
+      if ((uri.host == AppConfig.inviteHost || uri.host.endsWith('.web.app')) && uri.path.startsWith('/invite')) {
         ref.read(routerProvider).go(Uri(path: '/invite', queryParameters: uri.queryParameters).toString());
       }
     }

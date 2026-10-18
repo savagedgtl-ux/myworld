@@ -19,7 +19,9 @@ export const REGION = process.env.APP_REGION || 'europe-west1';
 /** Common options for callables: App Check enforced in production. */
 export const callableOpts = {
   region: REGION,
-  enforceAppCheck: process.env.FUNCTIONS_EMULATOR !== 'true',
+  // Enforced in production. Test projects (sideloaded APKs can't pass Play
+  // Integrity) set ENFORCE_APP_CHECK=false in functions/.env.<projectId>.
+  enforceAppCheck: process.env.FUNCTIONS_EMULATOR !== 'true' && process.env.ENFORCE_APP_CHECK !== 'false',
 };
 
 export function requireAuth(req: CallableRequest<unknown>): string {

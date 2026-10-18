@@ -22,7 +22,9 @@ Future<void> bootstrapFirebase() async {
     FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
     await FirebaseStorage.instance.useStorageEmulator(host, 9199);
     FirebaseFunctions.instanceFor(region: AppConfig.functionsRegion).useFunctionsEmulator(host, 5001);
-  } else {
+  } else if (AppConfig.isProd) {
+    // App Check only in production builds distributed via the stores; test
+    // APKs installed manually can't pass Play Integrity / App Attest.
     await FirebaseAppCheck.instance.activate(
       providerAndroid: kDebugMode ? const AndroidDebugProvider() : const AndroidPlayIntegrityProvider(),
       providerApple: kDebugMode ? const AppleDebugProvider() : const AppleAppAttestWithDeviceCheckFallbackProvider(),
