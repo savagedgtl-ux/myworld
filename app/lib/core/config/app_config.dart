@@ -17,7 +17,7 @@ abstract final class AppConfig {
   static const adUnitIos = String.fromEnvironment('ADMOB_UNIT_IOS', defaultValue: 'ca-app-pub-3940256099942544/2934735716');
 
   /// Google Sign-In server client id (Web client id from Firebase console).
-  static const googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID');
+  static const googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID', defaultValue: '604089389013-pl032nb48i8ci2sl0fgrfugisrkmdjav.apps.googleusercontent.com');
 
   static const privacyPolicyUrl = String.fromEnvironment('PRIVACY_URL', defaultValue: 'https://myworldplus.app/privacy');
   static const termsUrl = String.fromEnvironment('TERMS_URL', defaultValue: 'https://myworldplus.app/terms');
