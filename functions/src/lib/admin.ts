@@ -4,6 +4,7 @@ import { getStorage } from 'firebase-admin/storage';
 import { getAuth } from 'firebase-admin/auth';
 import { getMessaging } from 'firebase-admin/messaging';
 import { HttpsError, CallableRequest } from 'firebase-functions/v2/https';
+import { defineString } from 'firebase-functions/params';
 import { createHash } from 'node:crypto';
 
 if (getApps().length === 0) initializeApp();
@@ -15,6 +16,12 @@ export const messaging = () => getMessaging();
 export { FieldValue, Timestamp };
 
 export const REGION = process.env.APP_REGION || 'europe-west1';
+/**
+ * Storage triggers must run in the bucket's region (Eventarc requirement).
+ * A deploy-time param (read from functions/.env.<projectId>), not process.env,
+ * because the CLI resolves trigger regions before runtime env vars exist.
+ */
+export const STORAGE_REGION = defineString('STORAGE_TRIGGER_REGION', { default: 'europe-west1' });
 
 /** Common options for callables: App Check enforced in production. */
 export const callableOpts = {

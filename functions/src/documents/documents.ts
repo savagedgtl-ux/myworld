@@ -3,7 +3,7 @@ import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import * as logger from 'firebase-functions/logger';
-import { audit, bucket, callableOpts, db, FieldValue, REGION, requireAuth, str, Timestamp } from '../lib/admin';
+import { audit, bucket, callableOpts, db, FieldValue, REGION, requireAuth, STORAGE_REGION, str, Timestamp } from '../lib/admin';
 import { isCompatible, sniffMime } from '../lib/fileSniff';
 import { EXPORT_TTL_DAYS, MAX_UPLOAD_BYTES, TRASH_RETENTION_DAYS } from '../plans';
 
@@ -32,7 +32,7 @@ async function usageKeyFor(uid: string): Promise<string | null> {
  * Validates every uploaded object by content (magic bytes) and updates the
  * storage usage counter. Invalid files are deleted and the record marked failed.
  */
-export const onFileUploaded = onObjectFinalized({ region: REGION, memory: '256MiB' }, async (event) => {
+export const onFileUploaded = onObjectFinalized({ region: STORAGE_REGION, memory: '256MiB' }, async (event) => {
   const name = event.data.name;
   const size = Number(event.data.size ?? 0);
   const docMatch = DOC_PATH.exec(name);
@@ -69,7 +69,7 @@ export const onFileUploaded = onObjectFinalized({ region: REGION, memory: '256Mi
   }
 });
 
-export const onFileDeleted = onObjectDeleted({ region: REGION }, async (event) => {
+export const onFileDeleted = onObjectDeleted({ region: STORAGE_REGION }, async (event) => {
   const name = event.data.name;
   const m = DOC_PATH.exec(name) ?? PHOTO_PATH.exec(name);
   if (!m) return;
