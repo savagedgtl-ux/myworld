@@ -173,6 +173,18 @@ describe('documents isolation', () => {
     await assertFails(setDoc(doc(as(ALICE), 'documents', 'over'), docData('over', ALICE)));
   });
 
+  it('storage quota is enforced on the declared file size', async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), 'usage', ALICE), { activeDocumentCount: 1, storageUsedBytes: 100 * 1024 * 1024 - 1000 });
+    });
+    await assertFails(setDoc(doc(as(ALICE), 'documents', 'big'), docData('big', ALICE, { fileSizeBytes: 1001 })));
+    await assertSucceeds(setDoc(doc(as(ALICE), 'documents', 'fits'), docData('fits', ALICE, { fileSizeBytes: 1000 })));
+  });
+
+  it('declared file size cannot change after create', async () => {
+    await assertFails(updateDoc(doc(as(ALICE), 'documents', 'alicePrivate'), { fileSizeBytes: 25 * 1024 * 1024 }));
+  });
+
   it('cannot inject unknown fields', async () => {
     await assertFails(setDoc(doc(as(ALICE), 'documents', 'new7'), docData('new7', ALICE, { aiApproved: true })));
   });

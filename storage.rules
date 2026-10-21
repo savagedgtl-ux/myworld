@@ -27,13 +27,12 @@ service firebase.storage {
       );
     }
 
-    function ent() {
-      return firestore.get(/databases/(default)/documents/entitlements/$(request.auth.uid)).data;
-    }
+    // Used for entity photos (two Firestore reads: entitlement + usage). The
+    // server creates both docs at sign-up and on each sign-in.
     function underStorageQuota() {
-      return firestore.exists(/databases/(default)/documents/entitlements/$(request.auth.uid))
-        && firestore.get(/databases/(default)/documents/usage/$(ent().usageKey)).data.storageUsedBytes
-           + request.resource.size <= ent().storageLimitBytes;
+      let ent = firestore.get(/databases/(default)/documents/entitlements/$(request.auth.uid)).data;
+      let used = firestore.get(/databases/(default)/documents/usage/$(ent.usageKey)).data.storageUsedBytes;
+      return used + request.resource.size <= ent.storageLimitBytes;
     }
 
     // Keep in sync with functions/src/plans.ts (MAX_UPLOAD_BYTES).
@@ -48,6 +47,17 @@ service firebase.storage {
         && request.resource.contentType.matches('image/jpeg|image/png|image/heic|image/heif|image/webp');
     }
 
+    // One Firestore read: production rejects Storage requests that read more
+    // than two documents. The record was quota-checked by Firestore rules on
+    // its declared size, so the file just must not exceed that size.
+    // get() of a missing record fails the rule, which is the intent.
+    function uploadMatchesRecord(ownerUid, documentId, fileName) {
+      let rec = firestore.get(/databases/(default)/documents/documents/$(documentId)).data;
+      return rec.ownerUid == ownerUid
+        && rec.storagePath == 'users/' + ownerUid + '/documents/' + documentId + '/' + fileName
+        && request.resource.size <= rec.fileSizeBytes;
+    }
+
     // Document files: users/{ownerUid}/documents/{documentId}/{fileName}
     match /users/{ownerUid}/documents/{documentId}/{fileName} {
       allow read: if signedIn()
@@ -60,11 +70,7 @@ service firebase.storage {
       allow create: if signedIn() && request.auth.uid == ownerUid
         && resource == null
         && validDocumentUpload()
-        && firestore.exists(/databases/(default)/documents/documents/$(documentId))
-        && firestore.get(/databases/(default)/documents/documents/$(documentId)).data.ownerUid == ownerUid
-        && firestore.get(/databases/(default)/documents/documents/$(documentId)).data.storagePath
-             == 'users/' + ownerUid + '/documents/' + documentId + '/' + fileName
-        && underStorageQuota();
+        && uploadMatchesRecord(ownerUid, documentId, fileName);
 
       // Overwrites are not allowed; permanent deletion is done server-side.
       allow update, delete: if false;

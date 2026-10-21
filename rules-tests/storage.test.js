@@ -28,7 +28,7 @@ beforeEach(async () => {
     }
     await setDoc(doc(db, 'documents', 'd1'), {
       documentId: 'd1', ownerUid: 'alice', privacyLevel: 'private', sharedWith: [],
-      storagePath: 'users/alice/documents/d1/file.pdf',
+      storagePath: 'users/alice/documents/d1/file.pdf', fileSizeBytes: PDF.length,
     });
     await uploadBytes(ref(ctx.storage(), 'users/alice/documents/d1/file.pdf'), PDF, { contentType: 'application/pdf' });
   });
@@ -58,19 +58,18 @@ describe('storage', () => {
       });
       await setDoc(doc(ctx.firestore(), 'documents', 'd3'), {
         documentId: 'd3', ownerUid: 'alice', privacyLevel: 'private', sharedWith: [],
-        storagePath: 'users/alice/documents/d3/ok.pdf',
+        storagePath: 'users/alice/documents/d3/ok.pdf', fileSizeBytes: PDF.length,
       });
     });
     await assertFails(uploadBytes(ref(st('alice'), 'users/alice/documents/d2/evil.exe'), PDF, { contentType: 'application/x-msdownload' }));
     await assertSucceeds(uploadBytes(ref(st('alice'), 'users/alice/documents/d3/ok.pdf'), PDF, { contentType: 'application/pdf' }));
   });
 
-  it('storage quota is enforced', async () => {
+  it('file larger than its quota-checked record is rejected', async () => {
     await env.withSecurityRulesDisabled(async (ctx) => {
-      await setDoc(doc(ctx.firestore(), 'usage', 'alice'), { activeDocumentCount: 1, storageUsedBytes: 995 });
       await setDoc(doc(ctx.firestore(), 'documents', 'd4'), {
         documentId: 'd4', ownerUid: 'alice', privacyLevel: 'private', sharedWith: [],
-        storagePath: 'users/alice/documents/d4/big.pdf',
+        storagePath: 'users/alice/documents/d4/big.pdf', fileSizeBytes: PDF.length - 1,
       });
     });
     await assertFails(uploadBytes(ref(st('alice'), 'users/alice/documents/d4/big.pdf'), PDF, { contentType: 'application/pdf' }));

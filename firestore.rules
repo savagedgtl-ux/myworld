@@ -220,6 +220,13 @@ service cloud.firestore {
         && usageOf(entitlement().usageKey).activeDocumentCount < entitlement().maxDocuments;
     }
 
+    // Storage quota is enforced here, on the declared size: Storage rules can
+    // only afford one Firestore read per document upload, so they check the
+    // file against this record (size can't grow; see the update rule).
+    function underStorageQuotaFor(sizeBytes) {
+      return usageOf(entitlement().usageKey).storageUsedBytes + sizeBytes <= entitlement().storageLimitBytes;
+    }
+
     match /documents/{docId} {
       allow get, list: if canReadRecord(resource.data);
       allow create: if signedIn()
@@ -228,10 +235,11 @@ service cloud.firestore {
         && request.resource.data.deletedAt == null
         && clientStatus(request.resource.data.processingStatus)
         && validDocument(request.resource.data, docId)
-        && underDocumentQuota();
+        && underDocumentQuota()
+        && underStorageQuotaFor(request.resource.data.fileSizeBytes);
       allow update: if signedIn() && resource.data.ownerUid == uid()
         && onlyKeys(documentKeys())
-        && unchanged(['ownerUid', 'documentId', 'storagePath', 'createdAt'])
+        && unchanged(['ownerUid', 'documentId', 'storagePath', 'createdAt', 'fileSizeBytes'])
         // Server may set processing/needs_review; the client may keep it or move on.
         && (request.resource.data.processingStatus == resource.data.processingStatus
             || clientStatus(request.resource.data.processingStatus))
