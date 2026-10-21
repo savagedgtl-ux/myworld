@@ -30,10 +30,15 @@ service firebase.storage {
     function ent() {
       return firestore.get(/databases/(default)/documents/entitlements/$(request.auth.uid)).data;
     }
+    // A brand-new user has no usage doc until the server counts their first
+    // document; treat that as nothing used instead of rejecting the upload.
+    function usedBytes() {
+      let path = /databases/(default)/documents/usage/$(ent().usageKey);
+      return firestore.exists(path) ? firestore.get(path).data.get('storageUsedBytes', 0) : 0;
+    }
     function underStorageQuota() {
       return firestore.exists(/databases/(default)/documents/entitlements/$(request.auth.uid))
-        && firestore.get(/databases/(default)/documents/usage/$(ent().usageKey)).data.storageUsedBytes
-           + request.resource.size <= ent().storageLimitBytes;
+        && usedBytes() + request.resource.size <= ent().storageLimitBytes;
     }
 
     // Keep in sync with functions/src/plans.ts (MAX_UPLOAD_BYTES).

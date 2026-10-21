@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { afterAll, beforeAll, beforeEach, describe, it } from 'vitest';
 import { assertFails, assertSucceeds, initializeTestEnvironment } from '@firebase/rules-unit-testing';
-import { doc, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getBytes } from 'firebase/storage';
 
 let env;
@@ -74,6 +74,22 @@ describe('storage', () => {
       });
     });
     await assertFails(uploadBytes(ref(st('alice'), 'users/alice/documents/d4/big.pdf'), PDF, { contentType: 'application/pdf' }));
+  });
+
+  it('new user without a usage doc can upload, quota still applies', async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      await deleteDoc(doc(ctx.firestore(), 'usage', 'alice'));
+      await setDoc(doc(ctx.firestore(), 'documents', 'd5'), {
+        documentId: 'd5', ownerUid: 'alice', privacyLevel: 'private', sharedWith: [],
+        storagePath: 'users/alice/documents/d5/first.pdf',
+      });
+      await setDoc(doc(ctx.firestore(), 'documents', 'd6'), {
+        documentId: 'd6', ownerUid: 'alice', privacyLevel: 'private', sharedWith: [],
+        storagePath: 'users/alice/documents/d6/huge.pdf',
+      });
+    });
+    await assertSucceeds(uploadBytes(ref(st('alice'), 'users/alice/documents/d5/first.pdf'), PDF, { contentType: 'application/pdf' }));
+    await assertFails(uploadBytes(ref(st('alice'), 'users/alice/documents/d6/huge.pdf'), new Uint8Array(1001).fill(0x25), { contentType: 'application/pdf' }));
   });
 
   it('exports are owner read-only', async () => {
