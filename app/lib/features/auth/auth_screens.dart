@@ -27,18 +27,9 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
         label: 'MyWorld+',
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            width: size,
-            height: size,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [AppColors.primary, AppColors.secondary], begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: BorderRadius.circular(size * 0.3),
-            ),
-            child: Stack(alignment: Alignment.center, children: [
-              Icon(Icons.public, color: Colors.white, size: size * 0.55),
-              Positioned(right: size * 0.12, top: size * 0.1, child: Icon(Icons.add_rounded, color: AppColors.accent, size: size * 0.32)),
-            ]),
-          ),
+          // The orbit ring is wide and transparent around the safe, so the
+          // artwork gets a bit more room than the nominal size.
+          Image.asset('assets/images/logo.png', width: size * 1.3, height: size * 1.3, excludeFromSemantics: true),
           const SizedBox(height: Space.md),
           Text('MyWorld+', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
         ]),
