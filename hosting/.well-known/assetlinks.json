@@ -1,8 +1,17 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "app.myworldplus.myworld_plus",
-    "sha256_cert_fingerprints": ["44:50:71:19:76:46:7C:13:7C:A8:4F:FF:A1:F9:56:C8:32:C9:C3:EB:36:FE:76:B9:C4:86:AB:A8:87:53:0B:ED"]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.myworldplus.myworld_plus",
+      "sha256_cert_fingerprints": [
+        "44:50:71:19:76:46:7C:13:7C:A8:4F:FF:A1:F9:56:C8:32:C9:C3:EB:36:FE:76:B9:C4:86:AB:A8:87:53:0B:ED",
+        "AC:E4:A2:66:12:CB:B7:25:77:1F:F3:2E:BD:D6:9D:02:8F:E3:4B:7F:48:1E:5E:77:55:84:BC:C3:BC:05:81:33",
+        "45:5A:9B:79:E3:6F:73:3A:57:4F:75:1F:66:3C:04:CE:4D:65:98:6B:7F:F3:95:2D:5C:D9:21:B0:23:2C:00:F2",
+        "FF:4B:7B:EF:3A:E2:B5:65:69:0F:19:B8:E2:DB:16:E8:75:73:2E:47:73:AC:A0:AA:80:88:C0:AE:DB:05:F9:C4"
+      ]
+    }
   }
-}]
+]
