@@ -496,7 +496,10 @@ class DocumentDetailScreen extends ConsumerWidget {
             SecondaryButton(
               label: l.aiAnalyzeAgain,
               icon: Icons.auto_awesome,
-              onPressed: d.processingStatus == ProcessingStatus.processing
+              // Not while the file is uploading or the automatic run is pending
+              // (double charge), nor when the upload failed (nothing to read).
+              onPressed: const {ProcessingStatus.uploading, ProcessingStatus.uploaded, ProcessingStatus.processing, ProcessingStatus.failed}
+                      .contains(d.processingStatus)
                   ? null
                   : () async {
                       try {

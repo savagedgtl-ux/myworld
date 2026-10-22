@@ -444,8 +444,8 @@ class _EditCardScreenState extends ConsumerState<EditCardScreen> {
     String? t(TextEditingController c) => c.text.trim().isEmpty ? null : c.text.trim();
     try {
       final photos = ref.read(photoRepoProvider);
-      final front = _newFront != null ? await photos.upload(uid, id, 'front', _newFront!) : _front;
-      final back = _newBack != null ? await photos.upload(uid, id, 'back', _newBack!) : _back;
+      final front = _newFront != null ? await photos.upload(uid, 'walletCards', id, 'front', _newFront!) : _front;
+      final back = _newBack != null ? await photos.upload(uid, 'walletCards', id, 'back', _newBack!) : _back;
       await repo.save(
         WalletCard(
           id: id,

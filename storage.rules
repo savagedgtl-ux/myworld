@@ -76,19 +76,22 @@ service firebase.storage {
       allow update, delete: if false;
     }
 
-    // Entity photos: users/{ownerUid}/photos/{entityId}/{fileName}
-    // (assets, vehicles, family profiles, avatar). Read follows the entity record.
+    // Entity record behind a photo; the file name starts with its collection
+    // ("vehicles-photo.jpg"), so only that one record is read.
+    function canReadEntity(fileName, entityId) {
+      let col = fileName.split('-')[0];
+      let path = /databases/(default)/documents/$(col)/$(entityId);
+      return col in ['assets', 'vehicles', 'walletCards', 'businessCards']
+        && firestore.exists(path) && canReadRecord(firestore.get(path).data);
+    }
+
+    // Entity photos: users/{ownerUid}/photos/{entityId}/{collection}-{name}
+    // (assets, vehicles, wallet and business cards). Read follows the entity
+    // record; production allows two Firestore docs per request (record +
+    // family membership), so the record is found from the file name.
     match /users/{ownerUid}/photos/{entityId}/{fileName} {
       allow read: if signedIn() && (
-        request.auth.uid == ownerUid
-        || (firestore.exists(/databases/(default)/documents/assets/$(entityId))
-            && canReadRecord(firestore.get(/databases/(default)/documents/assets/$(entityId)).data))
-        || (firestore.exists(/databases/(default)/documents/vehicles/$(entityId))
-            && canReadRecord(firestore.get(/databases/(default)/documents/vehicles/$(entityId)).data))
-        || (firestore.exists(/databases/(default)/documents/walletCards/$(entityId))
-            && canReadRecord(firestore.get(/databases/(default)/documents/walletCards/$(entityId)).data))
-        || (firestore.exists(/databases/(default)/documents/businessCards/$(entityId))
-            && canReadRecord(firestore.get(/databases/(default)/documents/businessCards/$(entityId)).data))
+        request.auth.uid == ownerUid || canReadEntity(fileName, entityId)
       );
       allow create, update: if signedIn() && request.auth.uid == ownerUid
         && validPhotoUpload() && underStorageQuota();

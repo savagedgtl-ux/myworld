@@ -199,11 +199,11 @@ class _EditBusinessCardScreenState extends ConsumerState<EditBusinessCardScreen>
       final uid = ref.read(uidProvider)!;
       final photos = ref.read(photoRepoProvider);
       if (_newFront != null) {
-        _front = await photos.upload(uid, _id, 'front', _newFront!);
+        _front = await photos.upload(uid, 'businessCards', _id, 'front', _newFront!);
         _newFront = null;
       }
       if (_newBack != null) {
-        _back = await photos.upload(uid, _id, 'back', _newBack!);
+        _back = await photos.upload(uid, 'businessCards', _id, 'back', _newBack!);
         _newBack = null;
       }
       final r = await ref.read(aiRepoProvider).extractBusinessCard([?_front, ?_back]);
@@ -311,8 +311,8 @@ class _EditBusinessCardScreenState extends ConsumerState<EditBusinessCardScreen>
     String? t(TextEditingController c) => c.text.trim().isEmpty ? null : c.text.trim();
     try {
       final photos = ref.read(photoRepoProvider);
-      if (_newFront != null) _front = await photos.upload(uid, _id, 'front', _newFront!);
-      if (_newBack != null) _back = await photos.upload(uid, _id, 'back', _newBack!);
+      if (_newFront != null) _front = await photos.upload(uid, 'businessCards', _id, 'front', _newFront!);
+      if (_newBack != null) _back = await photos.upload(uid, 'businessCards', _id, 'back', _newBack!);
       await ref.read(businessCardRepoProvider).save(
             BusinessCard(
               id: _id,

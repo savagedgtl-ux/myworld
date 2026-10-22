@@ -594,7 +594,7 @@ class _EditVehicleScreenState extends ConsumerState<EditVehicleScreen> {
     final id = widget.id ?? repo.newId();
     try {
       var photo = _photo;
-      if (_newPhoto != null) photo = await ref.read(photoRepoProvider).upload(uid, id, 'photo', _newPhoto!);
+      if (_newPhoto != null) photo = await ref.read(photoRepoProvider).upload(uid, 'vehicles', id, 'photo', _newPhoto!);
       String? t(TextEditingController c) => c.text.trim().isEmpty ? null : c.text.trim();
       await repo.save(
         Vehicle(

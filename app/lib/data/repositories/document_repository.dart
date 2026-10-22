@@ -94,7 +94,9 @@ class DocumentRepository extends RecordRepository<DocumentRecord> {
     try {
       await _storage.upload(path, file.bytes, file.mime, onProgress: onProgress);
     } on AppError catch (e) {
-      await patch(id, {'processingStatus': 'failed'});
+      // The screen's retry creates a fresh record, so park this one in the
+      // trash: it holds no file and must not count toward the document limit.
+      await patch(id, {'processingStatus': 'failed', 'deletedAt': DateTime.now()}).catchError((_) {});
       if (e.code == AppErrorCode.permissionDenied) throw const AppError(AppErrorCode.storageLimit);
       rethrow;
     }

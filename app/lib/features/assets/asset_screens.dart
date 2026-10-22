@@ -521,7 +521,7 @@ class _EditAssetScreenState extends ConsumerState<EditAssetScreen> {
     final id = widget.id ?? repo.newId();
     try {
       var photo = _photoPath;
-      if (_newPhoto != null) photo = await ref.read(photoRepoProvider).upload(uid, id, 'photo', _newPhoto!);
+      if (_newPhoto != null) photo = await ref.read(photoRepoProvider).upload(uid, 'assets', id, 'photo', _newPhoto!);
       String? t(TextEditingController c) => c.text.trim().isEmpty ? null : c.text.trim();
       final a = Asset(
         id: id,

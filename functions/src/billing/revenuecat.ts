@@ -28,7 +28,9 @@ async function syncFromRevenueCat(uid: string): Promise<void> {
   const prev = await ref.get();
 
   if (!snap) {
-    if (prev.exists) {
+    // Manually granted plans (tester / store-review accounts) have no store
+    // purchase; only a real purchase replaces them, never its absence.
+    if (prev.exists && prev.get('provider') !== 'manual') {
       await ref.set({ status: 'expired', updatedAt: FieldValue.serverTimestamp() }, { merge: true });
     }
   } else {

@@ -3,7 +3,7 @@ import { defineSecret } from 'firebase-functions/params';
 import * as logger from 'firebase-functions/logger';
 import { ZipArchive } from 'archiver';
 import { audit, auth, bucket, callableOpts, db, FieldValue, requireAuth, requireRecentAuth, sha256 } from '../lib/admin';
-import { getEntitlement } from '../lib/entitlements';
+import { getEntitlement, recomputeUsage } from '../lib/entitlements';
 import { RECORD_COLLECTIONS } from '../lib/records';
 import { dissolve } from '../family/family';
 
@@ -37,6 +37,16 @@ export const exportUserData = onCall({ ...callableOpts, timeoutSeconds: 540, mem
   const path = `exports/${uid}/${exportRef.id}.zip`;
   await exportRef.set({ uid, status: 'running', storagePath: path, createdAt: FieldValue.serverTimestamp() });
 
+  try {
+    return await writeExport(uid, ent.advancedExport, exportRef, path);
+  } catch (e) {
+    logger.error('export_failed', { error: String(e) });
+    await exportRef.update({ status: 'failed', failedAt: FieldValue.serverTimestamp() });
+    throw new HttpsError('internal', 'export_failed');
+  }
+});
+
+async function writeExport(uid: string, advancedExport: boolean, exportRef: FirebaseFirestore.DocumentReference, path: string) {
   const out = bucket().file(path).createWriteStream({ contentType: 'application/zip', resumable: false });
   const zip = new ZipArchive({ zlib: { level: 6 } });
   const done = new Promise<void>((resolve, reject) => { out.on('finish', resolve).on('error', reject); zip.on('error', reject); });
@@ -58,7 +68,7 @@ export const exportUserData = onCall({ ...callableOpts, timeoutSeconds: 540, mem
     'MyWorld+ izvoz podataka / data export\n\nmyworldplus-data.json — svi metapodaci, veze, podsetnici.\nfiles/ — originalni dokumenti i fotografije.\n',
     { name: 'README.txt' },
   );
-  if (ent.advancedExport) {
+  if (advancedExport) {
     zip.append(csv(data.documents, ['id', 'title', 'categoryId', 'vendor', 'documentDate', 'purchaseDate', 'amount', 'currency', 'warrantyExpiryDate', 'expiryDate', 'tags', 'privacyLevel']), { name: 'documents.csv' });
     zip.append(csv(data.vehicleRecords, ['id', 'vehicleId', 'recordType', 'date', 'mileage', 'amount', 'currency', 'vendor', 'description', 'nextDueDate']), { name: 'vehicle-records.csv' });
     zip.append(csv(data.assets, ['id', 'name', 'area', 'category', 'brand', 'model', 'serialNumber', 'purchaseDate', 'purchasePrice', 'currency', 'warrantyExpiryDate']), { name: 'assets.csv' });
@@ -73,7 +83,7 @@ export const exportUserData = onCall({ ...callableOpts, timeoutSeconds: 540, mem
   await exportRef.update({ status: 'ready', fileCount: files.length, readyAt: FieldValue.serverTimestamp() });
   await audit('data_exported', uid, { exportId: exportRef.id });
   return { exportId: exportRef.id, storagePath: path };
-});
+}
 
 async function deleteQuery(q: FirebaseFirestore.Query) {
   for (;;) {
@@ -107,6 +117,8 @@ export const deleteAccount = onCall({ ...callableOpts, timeoutSeconds: 540, secr
     }
   }
   await db.collection('users').doc(uid).set({ accountStatus: 'deleting' }, { merge: true });
+  // A family member's usage is pooled under the family; recount it at the end.
+  const pooledKey = (await db.collection('entitlements').doc(uid).get()).get('usageKey') as string | undefined;
   // Remove server docs first so cleanup-triggered usage updates are no-ops.
   await db.collection('entitlements').doc(uid).delete();
   await db.collection('usage').doc(uid).delete();
@@ -152,6 +164,7 @@ export const deleteAccount = onCall({ ...callableOpts, timeoutSeconds: 540, secr
   }
 
   await db.collection('users').doc(uid).delete();
+  if (pooledKey && pooledKey !== uid) await recomputeUsage(pooledKey);
   await audit('account_deleted', anon, {});
   await auth().deleteUser(uid).catch((e) => {
     if (e?.code !== 'auth/user-not-found') throw new HttpsError('internal', 'auth_delete_failed');

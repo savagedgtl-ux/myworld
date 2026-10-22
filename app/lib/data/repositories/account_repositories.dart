@@ -196,9 +196,11 @@ class PhotoRepository {
   PhotoRepository(this._storage);
   final FirebaseStorage _storage;
 
-  /// Entity photos live at users/{uid}/photos/{entityId}/{name}.jpg
-  Future<String> upload(String uid, String entityId, String name, Uint8List jpg) async {
-    final path = 'users/$uid/photos/$entityId/$name.jpg';
+  /// Entity photos live at users/{uid}/photos/{entityId}/{collection}-{name}.jpg.
+  /// The collection prefix lets Storage rules check family access with a
+  /// single Firestore read (production allows at most two per request).
+  Future<String> upload(String uid, String collection, String entityId, String name, Uint8List jpg) async {
+    final path = 'users/$uid/photos/$entityId/$collection-$name.jpg';
     try {
       await _storage.ref(path).putData(jpg, SettableMetadata(contentType: 'image/jpeg'));
     } catch (e) {

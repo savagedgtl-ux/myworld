@@ -80,6 +80,23 @@ describe('storage', () => {
     await assertFails(getBytes(ref(st('bob'), 'exports/alice/x.zip')));
   });
 
+  it('family member reads a shared vehicle photo; outsiders and private photos stay closed', async () => {
+    const PNG = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      const db = ctx.firestore();
+      await setDoc(doc(db, 'families', 'f1', 'members', 'alice'), { uid: 'alice', role: 'owner', status: 'active' });
+      await setDoc(doc(db, 'families', 'f1', 'members', 'bob'), { uid: 'bob', role: 'member', status: 'active' });
+      await setDoc(doc(db, 'vehicles', 'v1'), { vehicleId: 'v1', ownerUid: 'alice', familyId: 'f1', privacyLevel: 'family', sharedWith: [] });
+      await setDoc(doc(db, 'vehicles', 'v2'), { vehicleId: 'v2', ownerUid: 'alice', familyId: 'f1', privacyLevel: 'private', sharedWith: [] });
+      await uploadBytes(ref(ctx.storage(), 'users/alice/photos/v1/vehicles-photo.jpg'), PNG, { contentType: 'image/png' });
+      await uploadBytes(ref(ctx.storage(), 'users/alice/photos/v2/vehicles-photo.jpg'), PNG, { contentType: 'image/png' });
+    });
+    await assertSucceeds(getBytes(ref(st('bob'), 'users/alice/photos/v1/vehicles-photo.jpg')));
+    await assertFails(getBytes(ref(st('bob'), 'users/alice/photos/v2/vehicles-photo.jpg')));
+    await assertFails(getBytes(ref(env.authenticatedContext('eve').storage(), 'users/alice/photos/v1/vehicles-photo.jpg')));
+    await assertSucceeds(getBytes(ref(st('alice'), 'users/alice/photos/v2/vehicles-photo.jpg')));
+  });
+
   it('client cannot overwrite or delete document files', async () => {
     await assertFails(uploadBytes(ref(st('alice'), 'users/alice/documents/d1/file.pdf'), PDF, { contentType: 'application/pdf' }));
   });
