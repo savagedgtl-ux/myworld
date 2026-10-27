@@ -4,7 +4,7 @@ import { db, FieldValue, monthKey } from '../lib/admin';
 import { Entitlement } from '../lib/entitlementLogic';
 import { AI_FAMILY_MONTHLY_BUDGET_USD, AI_REQUESTS_PER_MINUTE } from '../plans';
 
-export type AiTask = 'extract_document' | 'extract_business_card' | 'ask';
+export type AiTask = 'extract_document' | 'extract_business_card' | 'ask' | 'index_document';
 
 /** Estimated USD per 1M tokens. Update when provider pricing changes. */
 const PRICES: Record<string, { in: number; out: number }> = {
@@ -12,6 +12,7 @@ const PRICES: Record<string, { in: number; out: number }> = {
   'gpt-5-nano': { in: 0.05, out: 0.4 },
   'gpt-5': { in: 1.25, out: 10.0 },
   'gpt-4.1-mini': { in: 0.4, out: 1.6 },
+  'text-embedding-3-small': { in: 0.02, out: 0 },
 };
 
 export function estimateCostUsd(model: string, inputTokens: number, outputTokens: number): number {
@@ -59,8 +60,11 @@ export async function reserveAiRequest(uid: string, ent: Entitlement): Promise<v
 export async function recordAiUsage(args: {
   uid: string; ent: Entitlement; task: AiTask; model: string;
   inputTokens: number; outputTokens: number; status: 'ok' | 'error'; errorCode?: string;
+  /** Background indexing is paid from the global budget, not the user's monthly AI allowance. */
+  chargeUser?: boolean; extraCostUsd?: number;
 }) {
-  const cost = estimateCostUsd(args.model, args.inputTokens, args.outputTokens);
+  const cost = estimateCostUsd(args.model, args.inputTokens, args.outputTokens) + (args.extraCostUsd ?? 0);
+  const chargeUser = args.chargeUser !== false;
   const mk = monthKey();
   const batch = db.batch();
   batch.set(db.collection('aiUsage').doc(), {
@@ -68,8 +72,8 @@ export async function recordAiUsage(args: {
     inputTokens: args.inputTokens, outputTokens: args.outputTokens, estimatedCostUsd: cost,
     status: args.status, errorCode: args.errorCode ?? null, createdAt: FieldValue.serverTimestamp(),
   });
-  batch.set(db.collection('aiBudgets').doc(`${args.uid}_${mk}`), { costUsd: FieldValue.increment(cost) }, { merge: true });
-  if (args.ent.familyId) {
+  if (chargeUser) batch.set(db.collection('aiBudgets').doc(`${args.uid}_${mk}`), { costUsd: FieldValue.increment(cost) }, { merge: true });
+  if (chargeUser && args.ent.familyId) {
     batch.set(db.collection('aiBudgets').doc(`family_${args.ent.familyId}_${mk}`),
       { uid: null, familyId: args.ent.familyId, costUsd: FieldValue.increment(cost) }, { merge: true });
   }

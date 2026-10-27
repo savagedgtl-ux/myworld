@@ -288,4 +288,18 @@ describe('other private collections', () => {
     await assertFails(getDoc(doc(as(CAROL), 'documentExtractions', 'alicePrivate')));
     await assertFails(setDoc(doc(as(ALICE), 'documentExtractions', 'alicePrivate'), { extractedFields: { amount: 1 } }));
   });
+
+  it('full-text index is server-only, even for the owner', async () => {
+    await env.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), 'documentChunks', 'alicePrivate_0'), { documentId: 'alicePrivate', ownerUid: ALICE, text: 'x' });
+      await setDoc(doc(ctx.firestore(), 'documentIndex', 'alicePrivate'), { documentId: 'alicePrivate', ownerUid: ALICE, status: 'ready' });
+    });
+    for (const u of [ALICE, CAROL]) {
+      await assertFails(getDoc(doc(as(u), 'documentChunks', 'alicePrivate_0')));
+      await assertFails(getDocs(query(collection(as(u), 'documentChunks'), where('ownerUid', '==', ALICE))));
+      await assertFails(getDoc(doc(as(u), 'documentIndex', 'alicePrivate')));
+    }
+    await assertFails(setDoc(doc(as(ALICE), 'documentChunks', 'alicePrivate_1'), { documentId: 'alicePrivate', ownerUid: ALICE, text: 'y' }));
+    await assertFails(getDoc(doc(as(ALICE), 'aiIndexMeta', ALICE)));
+  });
 });

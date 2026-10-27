@@ -89,7 +89,8 @@ class _AssetAreaDashboardState extends ConsumerState<AssetAreaDashboard> {
           ],
           SectionHeader(title: l.allItems, actionLabel: items.isEmpty ? null : l.seeAll, onAction: () => context.push('/assets/list?area=${area.name}')),
           if (items.isEmpty)
-            EmptyState(icon: area == ItemArea.hobby ? Icons.interests_outlined : Icons.chair_outlined, title: l.noItems, message: l.noItemsHint, actionLabel: l.addItem, onAction: () => context.push('/assets/new?area=${area.name}'))
+            // No button here: the floating "Dodaj predmet" button already covers it and would overlap.
+            EmptyState(icon: area == ItemArea.hobby ? Icons.interests_outlined : Icons.chair_outlined, title: l.noItems, message: l.noItemsHint)
           else
             for (final a in (items..sort((a, b) => (b.updatedAt ?? DateTime(0)).compareTo(a.updatedAt ?? DateTime(0)))).take(6))
               Padding(padding: const EdgeInsets.only(bottom: Space.sm), child: _assetCard(context, a)),

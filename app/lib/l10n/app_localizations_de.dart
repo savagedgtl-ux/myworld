@@ -184,6 +184,15 @@ class AppLocalizationsDe extends AppLocalizations {
       'Frag nach deinen Dokumenten, Gegenständen, Fahrzeugen und Fristen. Antworten enthalten immer Quellen.';
 
   @override
+  String aiIndexing(int ready, int total) {
+    return 'KI liest deine Dokumente: $ready von $total. Die Antworten werden mit der Zeit vollständiger.';
+  }
+
+  @override
+  String get aiIndexingDeferred =>
+      'Das monatliche Leselimit für Dokumente ist erreicht. Den Rest liest die KI ab Anfang nächsten Monats.';
+
+  @override
   String get aiLimitsNote =>
       'Das monatliche Limit verhindert unerwartete Kosten. Es wird zu Beginn jedes Monats zurückgesetzt.';
 

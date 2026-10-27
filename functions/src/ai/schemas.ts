@@ -41,6 +41,12 @@ export const ExtractionSchema = z.object({
 });
 export type Extraction = z.infer<typeof ExtractionSchema>;
 
+/** Used for scans (no text layer): also returns the document's full text for AI questions. */
+export const ExtractionWithTranscriptSchema = ExtractionSchema.extend({
+  transcript: z.string().nullable().describe('ALL text of the document verbatim, in reading order and original language, '
+    + 'including handwriting, tables (cells separated by " | ") and form fields ("Label: value"). No summary, no translation.'),
+});
+
 export const BusinessCardSchema = z.object({
   fullName: z.string().nullable(),
   company: z.string().nullable(),
@@ -189,5 +195,5 @@ export function validateBusinessCard(raw: BusinessCardExtraction): BusinessCardE
 export function validateAnswer(raw: Answer, allowedIds: ReadonlySet<string>): Answer {
   const sourceIds = [...new Set(raw.sourceIds.filter((id) => allowedIds.has(id)))];
   const insufficientData = raw.insufficientData || sourceIds.length === 0;
-  return { answer: raw.answer.slice(0, 2000), sourceIds, insufficientData };
+  return { answer: raw.answer.slice(0, 3000), sourceIds, insufficientData };
 }

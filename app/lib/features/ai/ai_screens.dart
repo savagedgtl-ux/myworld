@@ -32,13 +32,24 @@ class _AiAskScreenState extends ConsumerState<AiAskScreen> {
   final _c = TextEditingController();
   final _turns = <_Turn>[];
   bool _busy = false;
+  ({int total, int ready, int pending, int deferred})? _index;
 
   @override
   void initState() {
     super.initState();
+    _refreshIndex();
     if (widget.initialQuestion != null && widget.initialQuestion!.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _ask(widget.initialQuestion!));
     }
+  }
+
+  /// Queues unread documents and shows how far AI has got; best-effort.
+  Future<void> _refreshIndex() async {
+    if (!ref.read(entitlementValueProvider).aiEnabled) return;
+    try {
+      final r = await ref.read(aiRepoProvider).prepareIndex();
+      if (mounted) setState(() => _index = r);
+    } catch (_) {}
   }
 
   Future<void> _ask(String q) async {
@@ -50,13 +61,18 @@ class _AiAskScreenState extends ConsumerState<AiAskScreen> {
       _busy = true;
       _c.clear();
     });
+    final history = [
+      for (final p in _turns.where((x) => x != t && x.answer?.answer != null).toList().reversed.take(4).toList().reversed)
+        (q: p.question, a: p.answer!.answer!),
+    ];
     try {
-      t.answer = await ref.read(aiRepoProvider).ask(t.question);
+      t.answer = await ref.read(aiRepoProvider).ask(t.question, history: history);
     } catch (e) {
       t.error = e;
     } finally {
       if (mounted) setState(() => _busy = false);
     }
+    if ((_index?.pending ?? 0) > 0) _refreshIndex();
   }
 
   @override
@@ -72,6 +88,20 @@ class _AiAskScreenState extends ConsumerState<AiAskScreen> {
       body: Column(children: [
         Expanded(
           child: ListView(padding: const EdgeInsets.all(Space.gutter), children: [
+            if (_index != null && (_index!.pending > 0 || _index!.deferred > 0))
+              Padding(
+                padding: const EdgeInsets.only(bottom: Space.md),
+                child: AppCard(
+                  child: Row(children: [
+                    if (_index!.pending > 0) const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) else const Icon(Icons.hourglass_bottom, size: 18),
+                    const SizedBox(width: Space.md),
+                    Expanded(child: Text(
+                      _index!.pending > 0 ? l.aiIndexing(_index!.ready, _index!.total) : l.aiIndexingDeferred,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )),
+                  ]),
+                ),
+              ),
             if (_turns.isEmpty) ...[
               Text(l.aiIntro, style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: Space.sm),

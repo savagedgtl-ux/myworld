@@ -130,6 +130,9 @@ export const deleteAccount = onCall({ ...callableOpts, timeoutSeconds: 540, secr
     await deleteQuery(db.collection(col).where('ownerUid', '==', uid));
   }
   await deleteQuery(db.collection('documentExtractions').where('ownerUid', '==', uid));
+  await deleteQuery(db.collection('documentChunks').where('ownerUid', '==', uid));
+  await deleteQuery(db.collection('documentIndex').where('ownerUid', '==', uid));
+  await db.collection('aiIndexMeta').doc(uid).delete();
   await deleteQuery(db.collection('categories').where('ownerUid', '==', uid));
   await deleteQuery(db.collection('exports').where('uid', '==', uid));
   await deleteQuery(db.collection('aiBudgets').where('uid', '==', uid));

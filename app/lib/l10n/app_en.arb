@@ -54,6 +54,8 @@
   "aiHint": "Ask a question about your data…",
   "aiInsufficientNote": "I only answer from your saved data. If something is missing, add a document or fill in the details.",
   "aiIntro": "Ask about your documents, items, vehicles and deadlines. Answers always include sources.",
+  "aiIndexing": "AI is reading your documents: {ready} of {total}. Answers get more complete as it goes.",
+  "aiIndexingDeferred": "This month's document reading limit is used up. AI reads the rest at the start of next month.",
   "aiLimitsNote": "The monthly limit prevents unexpected costs. It resets at the start of each month.",
   "aiNoData": "I don't have enough data to answer this question.",
   "aiNotInPlanHint": "AI analysis is available in Individual Pro and Family Pro. You can save and edit the document manually.",

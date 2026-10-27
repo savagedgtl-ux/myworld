@@ -68,6 +68,12 @@ export const AI_REQUESTS_PER_MINUTE = 8;
 export const MAX_UPLOAD_BYTES = 25 * MB;
 export const MAX_PAGES_FOR_AI = 15;
 export const MAX_AI_INPUT_CHARS = 24000;
+/** Full-text index for AI questions. */
+export const EMBEDDING_DIMENSIONS = 512;
+export const MAX_INDEX_CHARS = 300_000;
+/** Scanned pages are read (OCR) by the model; text-layer PDFs cost nothing extra. */
+export const MAX_OCR_PAGES = 30;
+export const AI_INDEX_PAGES_PER_MONTH = 1500;
 export const TRASH_RETENTION_DAYS = 30;
 export const INVITATION_TTL_DAYS = 7;
 export const EXPORT_TTL_DAYS = 7;

@@ -162,13 +162,24 @@ class AiRepository {
   AiRepository(this._functions);
   final FunctionsService _functions;
 
-  Future<AiAnswer> ask(String question) async {
-    final r = await _functions.call('aiAsk', {'question': question});
+  /// [history] holds the previous turns so follow-ups like "zašto?" make sense.
+  Future<AiAnswer> ask(String question, {List<({String q, String a})> history = const []}) async {
+    final r = await _functions.call('aiAsk', {
+      'question': question,
+      'history': [for (final h in history) {'q': h.q, 'a': h.a}],
+    }, const Duration(seconds: 100));
     final src = (r['sources'] as List? ?? const [])
         .whereType<Map>()
         .map((m) => (id: '${m['id']}', collection: '${m['collection']}', title: '${m['title']}'))
         .toList();
     return AiAnswer(answer: r['answer'] as String?, insufficientData: r['insufficientData'] == true, sources: src);
+  }
+
+  /// Queues documents that AI hasn't read yet; returns reading progress.
+  Future<({int total, int ready, int pending, int deferred})> prepareIndex() async {
+    final r = await _functions.call('prepareAiIndex', const {});
+    int n(Object? v) => v is num ? v.toInt() : 0;
+    return (total: n(r['total']), ready: n(r['ready']), pending: n(r['pending']), deferred: n(r['deferred']));
   }
 
   Future<Map<String, dynamic>> extractBusinessCard(List<String> photoPaths) =>

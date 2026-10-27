@@ -54,6 +54,18 @@
   "aiHint": "Postavi pitanje o svojim podacima…",
   "aiInsufficientNote": "Odgovaram samo na osnovu sačuvanih podataka. Ako nešto nedostaje, dodaj dokument ili dopuni podatke.",
   "aiIntro": "Pitaj o svojim dokumentima, stvarima, vozilima i rokovima. Odgovor uvek sadrži izvore.",
+  "aiIndexing": "AI čita tvoje dokumente: {ready} od {total}. Odgovori postaju potpuniji kako napreduje.",
+  "@aiIndexing": {
+    "placeholders": {
+      "ready": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "aiIndexingDeferred": "Mesečni limit čitanja dokumenata je potrošen. Ostatak AI čita od početka sledećeg meseca.",
   "aiLimitsNote": "Mesečni limit štiti od neočekivanih troškova. Resetuje se početkom meseca.",
   "aiNoData": "Nemam dovoljno podataka da odgovorim na ovo pitanje.",
   "aiNotInPlanHint": "AI analiza je dostupna u Individual Pro i Family Pro paketima. Dokument možeš da sačuvaš i uređuješ ručno.",

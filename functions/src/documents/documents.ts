@@ -6,6 +6,7 @@ import * as logger from 'firebase-functions/logger';
 import { audit, bucket, callableOpts, db, FieldValue, REGION, requireAuth, STORAGE_REGION, str, Timestamp } from '../lib/admin';
 import { isCompatible, sniffMime } from '../lib/fileSniff';
 import { EXPORT_TTL_DAYS, MAX_UPLOAD_BYTES, TRASH_RETENTION_DAYS } from '../plans';
+import { removeFromIndex } from '../ai/indexer';
 
 const DOC_PATH = /^users\/([^/]+)\/documents\/([^/]+)\/[^/]+$/;
 const PHOTO_PATH = /^users\/([^/]+)\/photos\/([^/]+)\/[^/]+$/;
@@ -100,6 +101,7 @@ async function hardDeleteDocument(ref: FirebaseFirestore.DocumentReference) {
   const path = d.get('storagePath');
   if (typeof path === 'string') await bucket().file(path).delete({ ignoreNotFound: true });
   await db.collection('documentExtractions').doc(ref.id).delete();
+  await removeFromIndex(ref.id);
   await ref.delete();
 }
 

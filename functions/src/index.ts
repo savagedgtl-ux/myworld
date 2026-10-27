@@ -14,3 +14,4 @@ export { onFileUploaded, onFileDeleted, onDocumentRecordWritten, purgeDocument, 
 export { dispatchReminders } from './reminders/dispatch';
 export { extractDocument, autoExtractOnUpload, extractBusinessCard } from './ai/extract';
 export { aiAsk } from './ai/ask';
+export { prepareAiIndex, processAiIndexQueue } from './ai/indexer';

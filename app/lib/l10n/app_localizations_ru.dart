@@ -181,6 +181,15 @@ class AppLocalizationsRu extends AppLocalizations {
       'Спрашивайте о своих документах, вещах, автомобилях и сроках. В ответах всегда есть источники.';
 
   @override
+  String aiIndexing(int ready, int total) {
+    return 'ИИ читает ваши документы: $ready из $total. Ответы становятся полнее по мере чтения.';
+  }
+
+  @override
+  String get aiIndexingDeferred =>
+      'Месячный лимит чтения документов исчерпан. Остальное ИИ прочитает в начале следующего месяца.';
+
+  @override
   String get aiLimitsNote =>
       'Месячный лимит защищает от неожиданных расходов. Он обнуляется в начале каждого месяца.';
 

@@ -54,6 +54,8 @@
   "aiHint": "Stelle eine Frage zu deinen Daten…",
   "aiInsufficientNote": "Ich antworte nur auf Basis deiner gespeicherten Daten. Fehlt etwas, füge ein Dokument hinzu oder ergänze die Angaben.",
   "aiIntro": "Frag nach deinen Dokumenten, Gegenständen, Fahrzeugen und Fristen. Antworten enthalten immer Quellen.",
+  "aiIndexing": "KI liest deine Dokumente: {ready} von {total}. Die Antworten werden mit der Zeit vollständiger.",
+  "aiIndexingDeferred": "Das monatliche Leselimit für Dokumente ist erreicht. Den Rest liest die KI ab Anfang nächsten Monats.",
   "aiLimitsNote": "Das monatliche Limit verhindert unerwartete Kosten. Es wird zu Beginn jedes Monats zurückgesetzt.",
   "aiNoData": "Ich habe nicht genug Daten, um diese Frage zu beantworten.",
   "aiNotInPlanHint": "Die KI-Analyse ist in Individual Pro und Family Pro verfügbar. Du kannst das Dokument manuell speichern und bearbeiten.",

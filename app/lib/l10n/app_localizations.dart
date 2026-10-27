@@ -430,6 +430,18 @@ abstract class AppLocalizations {
   /// **'Pitaj o svojim dokumentima, stvarima, vozilima i rokovima. Odgovor uvek sadrži izvore.'**
   String get aiIntro;
 
+  /// No description provided for @aiIndexing.
+  ///
+  /// In sr, this message translates to:
+  /// **'AI čita tvoje dokumente: {ready} od {total}. Odgovori postaju potpuniji kako napreduje.'**
+  String aiIndexing(int ready, int total);
+
+  /// No description provided for @aiIndexingDeferred.
+  ///
+  /// In sr, this message translates to:
+  /// **'Mesečni limit čitanja dokumenata je potrošen. Ostatak AI čita od početka sledećeg meseca.'**
+  String get aiIndexingDeferred;
+
   /// No description provided for @aiLimitsNote.
   ///
   /// In sr, this message translates to:

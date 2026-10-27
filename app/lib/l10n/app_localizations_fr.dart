@@ -187,6 +187,15 @@ class AppLocalizationsFr extends AppLocalizations {
       'Posez des questions sur vos documents, objets, véhicules et échéances. Les réponses citent toujours leurs sources.';
 
   @override
+  String aiIndexing(int ready, int total) {
+    return 'L\'IA lit tes documents : $ready sur $total. Les réponses deviennent plus complètes au fur et à mesure.';
+  }
+
+  @override
+  String get aiIndexingDeferred =>
+      'La limite mensuelle de lecture des documents est atteinte. L\'IA lira le reste au début du mois prochain.';
+
+  @override
   String get aiLimitsNote =>
       'La limite mensuelle évite les coûts imprévus. Elle est réinitialisée au début de chaque mois.';
 

@@ -179,6 +179,15 @@ class AppLocalizationsSr extends AppLocalizations {
       'Pitaj o svojim dokumentima, stvarima, vozilima i rokovima. Odgovor uvek sadrži izvore.';
 
   @override
+  String aiIndexing(int ready, int total) {
+    return 'AI čita tvoje dokumente: $ready od $total. Odgovori postaju potpuniji kako napreduje.';
+  }
+
+  @override
+  String get aiIndexingDeferred =>
+      'Mesečni limit čitanja dokumenata je potrošen. Ostatak AI čita od početka sledećeg meseca.';
+
+  @override
   String get aiLimitsNote =>
       'Mesečni limit štiti od neočekivanih troškova. Resetuje se početkom meseca.';
 

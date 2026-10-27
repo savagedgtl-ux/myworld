@@ -54,6 +54,8 @@
   "aiHint": "Posez une question sur vos données…",
   "aiInsufficientNote": "Je réponds uniquement à partir de vos données enregistrées. S’il manque quelque chose, ajoutez un document ou complétez les informations.",
   "aiIntro": "Posez des questions sur vos documents, objets, véhicules et échéances. Les réponses citent toujours leurs sources.",
+  "aiIndexing": "L'IA lit tes documents : {ready} sur {total}. Les réponses deviennent plus complètes au fur et à mesure.",
+  "aiIndexingDeferred": "La limite mensuelle de lecture des documents est atteinte. L'IA lira le reste au début du mois prochain.",
   "aiLimitsNote": "La limite mensuelle évite les coûts imprévus. Elle est réinitialisée au début de chaque mois.",
   "aiNoData": "Je n’ai pas assez de données pour répondre à cette question.",
   "aiNotInPlanHint": "L’analyse par l’IA est disponible dans Individual Pro et Family Pro. Vous pouvez enregistrer et modifier le document manuellement.",
